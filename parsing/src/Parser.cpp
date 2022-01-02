@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <sstream>
 #include "Node.h"
 
 
@@ -53,8 +54,8 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
     // ignore first line since header has already been handled...
     fileStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    while(!fileStream.eof()) {
-        fileStream >> currentWord;
+    while(fileStream >> currentWord) {
+
         int nodeIdentifier = std::stoi(currentWord);
         auto node = parityGame.getNode(nodeIdentifier);
 
@@ -67,25 +68,46 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
         // Form vector of successor nodes
         fileStream >> currentWord;
         std::vector<std::shared_ptr<Node>> successorNodes;
-        while(currentWord[currentWord.length()-1] != ';') {
-            int successorIdentifier = std::stoi(currentWord);
+
+        auto successorIdentifiers = commaSeparateString(currentWord);
+        for(int successorIdentifier : successorIdentifiers) {
             auto successorNode = parityGame.getNode(successorIdentifier);
             successorNodes.push_back(successorNode);
+        }
 
+        // There is a label
+        if(currentWord[currentWord.length()-1] != ';') {
             fileStream >> currentWord;
-        }
-        // Last element is node name
-        if(currentWord[0] == '\"') {
             std::string nodeName = currentWord.substr(1, currentWord.size()-2);
-        } else { // last element is a successor
-            int successorIdentifier = std::stoi(currentWord.substr(0, currentWord.size()-1));
-            auto successorNode = parityGame.getNode(successorIdentifier);
-            successorNodes.push_back(successorNode);
+            node->setNodeName(nodeName);
         }
-
         node->setSpecification(priority, owner, successorNodes);
+//        // Last element is node name
+//        if(currentWord[0] == '\"') {
+//            std::string nodeName = currentWord.substr(1, currentWord.size()-2);
+//        } else { // last element is a successor
+//            int successorIdentifier = std::stoi(currentWord.substr(0, currentWord.size()-1));
+//            auto successorNode = parityGame.getNode(successorIdentifier);
+//            successorNodes.push_back(successorNode);
+//        }
+
+
+
 
     }
     return parityGame;
 }
 
+
+std::vector<int> Parser::commaSeparateString(const std::string& str) {
+    std::vector<int> vect;
+
+    std::stringstream ss(str);
+
+    for (int i; ss >> i;) {
+        vect.push_back(i);
+        if (ss.peek() == ',')
+            ss.ignore();
+    }
+    return vect;
+}

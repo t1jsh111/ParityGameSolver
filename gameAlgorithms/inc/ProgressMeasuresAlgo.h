@@ -1,0 +1,14 @@
+//
+// Created by tijsh on 2-1-2022.
+//
+
+#ifndef PARITYGAMESOLVER_PROGRESSMEASURESALGO_H
+#define PARITYGAMESOLVER_PROGRESSMEASURESALGO_H
+
+
+class ProgressMeasuresAlgo {
+
+};
+
+
+#endif //PARITYGAMESOLVER_PROGRESSMEASURESALGO_H

@@ -61,3 +61,11 @@ void Node::printSuccessors() const{
     }
     std::cout << std::endl;
 }
+
+const std::string &Node::getNodeName() const {
+    return nodeName;
+}
+
+void Node::setNodeName(const std::string &nodeName) {
+    Node::nodeName = nodeName;
+}

@@ -8,6 +8,7 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include <string>
 
 class Node {
 public:
@@ -32,6 +33,13 @@ private:
     int id;
     int priority;
     bool owner;
+    std::string nodeName;
+public:
+    const std::string &getNodeName() const;
+
+    void setNodeName(const std::string &nodeName);
+
+private:
     std::vector<std::shared_ptr<Node>> successors;
 
 };
