@@ -14,9 +14,9 @@ class Node {
 public:
 //    typedef std::shared_ptr<std::unordered_map<int, Node>> Mapping;
 
-    Node(int id);
+    Node(int id, int priority, bool owner);
 
-    void setSpecification(int priority, bool owner, std::vector<std::shared_ptr<Node>> successors);
+    void setSuccessors(std::vector<std::shared_ptr<Node>> successors);
 
     int getId() const;
     int getPriority() const;

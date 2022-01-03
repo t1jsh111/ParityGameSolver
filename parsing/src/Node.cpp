@@ -7,8 +7,8 @@
 #include <utility>
 #include <iostream>
 
-Node::Node(int id) :
-id(id)
+Node::Node(int id, int priority, bool owner) :
+id(id), priority(priority), owner(owner)
 {
 
 }
@@ -17,9 +17,7 @@ std::vector<std::shared_ptr<Node>> Node::getSuccessors() const {
     return successors;
 }
 
-void Node::setSpecification(int priority, bool owner, std::vector<std::shared_ptr<Node>> successors) {
-    this->priority = priority;
-    this->owner = owner;
+void Node::setSuccessors(std::vector<std::shared_ptr<Node>> successors) {
     this->successors = std::move(successors);
 }
 

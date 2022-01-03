@@ -34,11 +34,18 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
 
     // create node objects..
     while(!autFile.eof()) {
-        int identifier;
 
         autFile >> currentWord;
-        identifier = std::stoi(currentWord);
-        parityGame.addNode(std::make_shared<Node>(identifier));
+        int nodeIdentifier = std::stoi(currentWord);
+        auto node = parityGame.getNode(nodeIdentifier);
+
+        autFile >> currentWord;
+        int priority = std::stoi(currentWord);
+
+        autFile >> currentWord;
+        bool owner = std::stoi(currentWord);
+
+        parityGame.addNode(std::make_shared<Node>(nodeIdentifier, priority, owner));
 
         // ignore the rest of the line...
         autFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -81,7 +88,7 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
             std::string nodeName = currentWord.substr(1, currentWord.size()-2);
             node->setNodeName(nodeName);
         }
-        node->setSpecification(priority, owner, successorNodes);
+        node->setSuccessors(successorNodes);
 //        // Last element is node name
 //        if(currentWord[0] == '\"') {
 //            std::string nodeName = currentWord.substr(1, currentWord.size()-2);

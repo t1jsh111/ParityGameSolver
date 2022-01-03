@@ -7,6 +7,7 @@
 
 #include <unordered_map>
 #include <memory>
+#include <vector>
 
 class Node;
 
@@ -16,15 +17,27 @@ public:
 
     void addNode(std::shared_ptr<Node> node);
 
+
+
+    int getNumberOfVerticesWithPriority(int priority) const;
+
+    const std::vector<std::shared_ptr<Node>>& getNodes() const;
+
     const Node& getNodeById(int id) const;
     std::shared_ptr<Node> getNode(int id) const;
 
     int getHighestIdentifier() const;
 
+    int getDValue() const;
+
 private:
     int highestIdentifier;
 
-    std::unordered_map<int, std::shared_ptr<Node>> nodeMapping;
+    std::unordered_map<int, std::shared_ptr<Node>> idToNodeMap;
+    std::unordered_map<int, std::vector<std::shared_ptr<Node>>> priorityToNodesMap;
+    std::vector<std::shared_ptr<Node>> nodes;
+
+    int highestPriority;
 
 };
 
