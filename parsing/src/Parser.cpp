@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <limits>
 #include <sstream>
 #include "Node.h"
@@ -37,7 +38,6 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
 
         autFile >> currentWord;
         int nodeIdentifier = std::stoi(currentWord);
-        auto node = parityGame.getNode(nodeIdentifier);
 
         autFile >> currentWord;
         int priority = std::stoi(currentWord);

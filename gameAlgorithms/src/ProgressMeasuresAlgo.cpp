@@ -6,6 +6,8 @@
 
 #include "Node.h"
 
+#include <limits>
+
 void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
 
     std::unordered_map<int, std::vector<int>> rhoMapping;
@@ -55,7 +57,7 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, std::vector<int>> &rhoM
                     leastVector[i] = rhoForW[i] + 1;
                 } else {
                     std::vector<int> top(parityGame.getDValue());
-                    for(int i = 0; i < parityGame.getDValue(); i++) {top[i] = std::numeric_limits<int>::max()}
+                    for(int i = 0; i < parityGame.getDValue(); i++) {top[i] = std::numeric_limits<int>::max();}
                     return top;
                 }
             }
@@ -65,7 +67,7 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, std::vector<int>> &rhoM
 
 void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, std::vector<int>> &rhoMapping) {
     if(v.isEven()) {
-        rhoMapping[v.getId()] = std::max(rhoMapping[v])
+        //rhoMapping[v.getId()] = std::max(rhoMapping[v])
     } else { // v is odd
 
     }
