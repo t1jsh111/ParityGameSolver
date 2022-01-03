@@ -4,6 +4,8 @@
 
 #include "ProgressMeasure.h"
 
+#include <stdexcept>
+
 ProgressMeasure::ProgressMeasure(ParityGame* correspondingParityGame, bool top) :
 progressMeasureVec(correspondingParityGame->getDValue(), 0), correspondingParityGame(correspondingParityGame), top(top) {
 
