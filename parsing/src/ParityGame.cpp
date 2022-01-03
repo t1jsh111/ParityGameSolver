@@ -64,7 +64,7 @@ const std::vector<std::shared_ptr<Node>> &ParityGame::getNodes() const {
 }
 
 ProgressMeasure ParityGame::getProgressMeasureDomainMaximum() {
-    ProgressMeasure domainMaximum(*this);
+    ProgressMeasure domainMaximum(this);
     std::vector<int> domainMaximumVec(getDValue());
     for(int i = 0; i < getDValue(); i++) {
 

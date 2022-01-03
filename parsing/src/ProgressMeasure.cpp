@@ -4,8 +4,8 @@
 
 #include "ProgressMeasure.h"
 
-ProgressMeasure::ProgressMeasure(const ParityGame& correspondingParityGame, bool top) :
-progressMeasureVec(correspondingParityGame.getDValue(), 0), correspondingParityGame(correspondingParityGame), top(top) {
+ProgressMeasure::ProgressMeasure(ParityGame* correspondingParityGame, bool top) :
+progressMeasureVec(correspondingParityGame->getDValue(), 0), correspondingParityGame(correspondingParityGame), top(top) {
 
 }
 
@@ -17,7 +17,7 @@ ProgressMeasure ProgressMeasure::getEvenProg(int priority) const {
     if(isTop()) {
         return *this;
     } else {
-        int d = correspondingParityGame.getDValue();
+        int d = correspondingParityGame->getDValue();
         ProgressMeasure progress(correspondingParityGame);
         std::vector<int> m(d);
         for(int i = 0; i <= priority; i++) {
@@ -36,7 +36,7 @@ ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
     if(isTop()) {
         return *this;
     } else {
-        int d = correspondingParityGame.getDValue();
+        int d = correspondingParityGame->getDValue();
         ProgressMeasure mProgressMeasure(correspondingParityGame);
         std::vector<int> m(d);
 
@@ -44,7 +44,7 @@ ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
 //        if(d % 2 != 1) {d--;}
 
         for(int i = priority; i >= 0; i -= 2) {
-            if(progressMeasureVec[i]+1 <= correspondingParityGame.getNumberOfVerticesWithPriority(i)) {
+            if(progressMeasureVec[i]+1 <= correspondingParityGame->getNumberOfVerticesWithPriority(i)) {
                 // We can increase
                 m[i] = progressMeasureVec[i]+1;
                 // copy the rest of the vector
@@ -86,4 +86,47 @@ bool ProgressMeasure::isTop() const {
 const std::vector<int> &ProgressMeasure::getProgressMeasureVec() const {
     return progressMeasureVec;
 }
+
+bool ProgressMeasure::operator<(const ProgressMeasure &rhs) const {
+    if(rhs.isTop() && !this->isTop() ) {
+        return true;
+    } else if(this->isTop() && !rhs.isTop()) {
+        return false;
+    } else {
+        for(int i = 0; i < correspondingParityGame->getDValue(); i++) {
+            if(progressMeasureVec[i] < rhs.getProgressMeasureVec()[i]) {
+                return true;
+            } else if(progressMeasureVec[i] > rhs.getProgressMeasureVec()[i]) {
+                return false;
+            }
+            // otherwise they are equal..
+
+        }
+        return false;
+    }
+}
+
+bool ProgressMeasure::operator==(const ProgressMeasure &rhs) const {
+    if(this->isTop() && rhs.isTop()) {
+        return true;
+    } else if(this->isTop() && !rhs.isTop()) {
+        return false;
+    } else if(!this->isTop() && rhs.isTop()) {
+        return false;
+    } else { // both are not top
+        for(int i = 0; i < correspondingParityGame->getDValue(); i++) {
+            if(getProgressMeasureVec()[i] != rhs.getProgressMeasureVec()[i]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+ProgressMeasure::ProgressMeasure() :
+top(false), correspondingParityGame(nullptr){
+
+}
+
 

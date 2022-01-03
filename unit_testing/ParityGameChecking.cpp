@@ -134,7 +134,7 @@ TEST_F(ParityGameTesting, evenProgressingProgressMeasureDomainMaximum) {
 
 TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,0});
     auto oddProg1 =  simpleProgress.getOddProg(1);
 
@@ -150,7 +150,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure) {
 
 TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,0});
     auto evenProg0 =  simpleProgress.getEvenProg(0);
 
@@ -167,7 +167,7 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure) {
 
 TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure2) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,3});
     auto oddProg1 =  simpleProgress.getOddProg(1);
 
@@ -183,7 +183,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure2) {
 
 TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure2) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,3});
     auto evenProg0 =  simpleProgress.getEvenProg(0);
 
@@ -201,7 +201,7 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure2) {
 
 TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure3) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,2,0,2});
     auto oddProg1 =  simpleProgress.getOddProg(1);
 
@@ -216,7 +216,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure3) {
 
 TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure3) {
 
-    ProgressMeasure simpleProgress(*parityGame);
+    ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,2,0,2});
     auto evenProg0 =  simpleProgress.getEvenProg(0);
 

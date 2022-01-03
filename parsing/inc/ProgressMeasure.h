@@ -10,7 +10,9 @@
 
 class ProgressMeasure {
 public:
-    ProgressMeasure(const ParityGame& correspondingParityGame, bool top = false);
+    ProgressMeasure();
+    ProgressMeasure(ParityGame* correspondingParityGame, bool top = false);
+
 
     ProgressMeasure getEvenProg(int priority) const;
     ProgressMeasure getOddProg(int priority) const;
@@ -19,11 +21,14 @@ public:
 
     const std::vector<int> &getProgressMeasureVec() const;
 
+    bool operator<(const ProgressMeasure& rhs) const;
+    bool operator==(const ProgressMeasure& rhs) const;
+
 private:
     std::vector<int> progressMeasureVec;
 
     bool top;
-    const ParityGame& correspondingParityGame;
+    ParityGame* correspondingParityGame;
 };
 
 
