@@ -8,18 +8,36 @@
 
 
 #include <limits>
+#include <iostream>
+#include <random>
+#include <algorithm>
 
 
 void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
 
     std::unordered_map<int, std::vector<int>> rhoMapping;
     int d = parityGame.getDValue();
+    auto order = parityGame.getNodes(); // Input order
 
-    for(auto& node  : parityGame.getNodes()) {
-        rhoMapping[node->getPriority()] = std::vector<int>(d);
+    std::cout << "Input order: ";
+    for (auto i = 0; i < order.size(); i++) {
+        std::cout << order.at(i)->getId() << "; ";
     }
+    std::cout << std::endl;
 
+    std::random_device rd;
+    std::default_random_engine rng(rd());
+    std::shuffle(order.begin(), order.end(), rng); // Random order
 
+    std::cout << "Random order: ";
+    for (auto i = 0; i < order.size(); i++) {
+        std::cout << order.at(i)->getId() << "; ";
+    }
+    std::cout << std::endl;
+
+    /*for(auto& node  : order) {
+        rhoMapping[node->getPriority()] = std::vector<int>(d);
+    }*/
 }
 
 ProgressMeasure
