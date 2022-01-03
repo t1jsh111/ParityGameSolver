@@ -4,6 +4,8 @@
 
 #include "ProgressMeasure.h"
 
+#include <iostream>
+
 ProgressMeasure::ProgressMeasure(ParityGame* correspondingParityGame, bool top) :
 progressMeasureVec(correspondingParityGame->getDValue(), 0), correspondingParityGame(correspondingParityGame), top(top) {
 
@@ -127,6 +129,17 @@ bool ProgressMeasure::operator==(const ProgressMeasure &rhs) const {
 ProgressMeasure::ProgressMeasure() :
 top(false), correspondingParityGame(nullptr){
 
+}
+
+void ProgressMeasure::print() {
+    if(top) {
+        std::cout << "Is top" << std::endl;
+    } else {
+        for(int i : progressMeasureVec) {
+            std::cout << i << ", ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 

@@ -25,7 +25,7 @@ protected:
 // We derive a fixture named IntegerFunctionTest from the QuickTest
 // fixture.  All tests using this fixture will be automatically
 // required to be quick.
-class ParityGameTesting : public QuickTest {
+class ProgressMeasureTesting : public QuickTest {
     // We don't need any more logic than already in the QuickTest fixture.
     // Therefore the body is empty.
 protected:
@@ -40,75 +40,12 @@ protected:
 public:
     static ParityGame* parityGame;
 };
-ParityGame* ParityGameTesting::parityGame = nullptr;
+ParityGame* ProgressMeasureTesting::parityGame = nullptr;
 
 
-TEST_F(ParityGameTesting, priorityTest) {
 
-    auto vec = parityGame->getNodes();
 
-    auto node = parityGame->getNodeById(0);
-    EXPECT_EQ(node.getPriority(), 1);
-
-    node = parityGame->getNodeById(1);
-    EXPECT_EQ(node.getPriority(), 1);
-
-    node = parityGame->getNodeById(2);
-    EXPECT_EQ(node.getPriority(), 3);
-
-    node = parityGame->getNodeById(3);
-    EXPECT_EQ(node.getPriority(), 3);
-
-    node = parityGame->getNodeById(5);
-    EXPECT_EQ(node.getPriority(), 2);
-
-    node = parityGame->getNodeById(6);
-    EXPECT_EQ(node.getPriority(), 2);
-}
-
-TEST_F(ParityGameTesting, ownerTest) {
-    auto node = parityGame->getNodeById(0);
-    EXPECT_EQ(node.isOdd(), true);
-    EXPECT_EQ(node.isEven(), false);
-
-    node = parityGame->getNodeById(1);
-    EXPECT_EQ(node.isOdd(), false);
-    EXPECT_EQ(node.isEven(), true);
-
-    node = parityGame->getNodeById(2);
-    EXPECT_EQ(node.isOdd(), false);
-    EXPECT_EQ(node.isEven(), true);
-
-    node = parityGame->getNodeById(3);
-    EXPECT_EQ(node.isOdd(), false);
-    EXPECT_EQ(node.isEven(), true);
-
-    node = parityGame->getNodeById(5);
-    EXPECT_EQ(node.isOdd(), true);
-    EXPECT_EQ(node.isEven(), false);
-
-    node = parityGame->getNodeById(6);
-    EXPECT_EQ(node.isOdd(), false);
-    EXPECT_EQ(node.isEven(), true);
-}
-
-TEST_F(ParityGameTesting, dValueTest) {
-
-    int dValue = parityGame->getDValue();
-    EXPECT_EQ(dValue, 4);
-
-}
-
-TEST_F(ParityGameTesting, successorTest) {
-
-    auto domainMaximum = parityGame->getProgressMeasureDomainMaximum();
-    EXPECT_EQ(domainMaximum.isTop(), false);
-    std::vector<int> expectation = {0,2,0,3};
-    EXPECT_EQ(domainMaximum.getProgressMeasureVec(), expectation);
-
-}
-
-TEST_F(ParityGameTesting, oddProgressingProgressMeasureDomainMaximum) {
+TEST_F(ProgressMeasureTesting, oddProgressingProgressMeasureDomainMaximum) {
 
     auto domainMaximum = parityGame->getProgressMeasureDomainMaximum();
     auto oddProg1= domainMaximum.getOddProg(1);
@@ -120,7 +57,7 @@ TEST_F(ParityGameTesting, oddProgressingProgressMeasureDomainMaximum) {
 
 }
 
-TEST_F(ParityGameTesting, evenProgressingProgressMeasureDomainMaximum) {
+TEST_F(ProgressMeasureTesting, evenProgressingProgressMeasureDomainMaximum) {
 
     auto domainMaximum = parityGame->getProgressMeasureDomainMaximum();
     auto evenProg0 = domainMaximum.getEvenProg(0);
@@ -135,7 +72,7 @@ TEST_F(ParityGameTesting, evenProgressingProgressMeasureDomainMaximum) {
 
 }
 
-TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure) {
+TEST_F(ProgressMeasureTesting, oddProgressingSimpleProgressMeasure) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,0});
@@ -151,7 +88,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure) {
 
 }
 
-TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure) {
+TEST_F(ProgressMeasureTesting, evenProgressingSimpleProgressMeasure) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,0});
@@ -168,7 +105,7 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure) {
 
 
 
-TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure2) {
+TEST_F(ProgressMeasureTesting, oddProgressingSimpleProgressMeasure2) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,3});
@@ -184,7 +121,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure2) {
 
 }
 
-TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure2) {
+TEST_F(ProgressMeasureTesting, evenProgressingSimpleProgressMeasure2) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,1,0,3});
@@ -202,7 +139,7 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure2) {
 
 
 
-TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure3) {
+TEST_F(ProgressMeasureTesting, oddProgressingSimpleProgressMeasure3) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,2,0,2});
@@ -217,7 +154,7 @@ TEST_F(ParityGameTesting, oddProgressingSimpleProgressMeasure3) {
 
 }
 
-TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure3) {
+TEST_F(ProgressMeasureTesting, evenProgressingSimpleProgressMeasure3) {
 
     ProgressMeasure simpleProgress(parityGame);
     simpleProgress.setProgressMeasureVec({0,2,0,2});
@@ -229,5 +166,44 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure3) {
     auto evenProg2 = simpleProgress.getEvenProg(2);
     expectation = {0,2,0,0};
     EXPECT_EQ(evenProg2.getProgressMeasureVec(), expectation);
+
+}
+
+
+TEST_F(ProgressMeasureTesting, progressMeasureComparison) {
+
+    ProgressMeasure progressM1(parityGame);
+    ProgressMeasure progressM2(parityGame);
+    progressM1.setProgressMeasureVec({0,1,0,2});
+    progressM2.setProgressMeasureVec({0,2,0,2});
+
+    EXPECT_EQ(progressM1 < progressM2, true);
+    EXPECT_EQ(progressM2 < progressM1, false);
+    EXPECT_EQ(progressM2 == progressM1, false);
+
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM1, false);
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM2, true);
+
+    progressM1.setProgressMeasureVec({0,1,0,2});
+    progressM2.setProgressMeasureVec({0,2,0,1});
+    EXPECT_EQ(progressM1 < progressM2, true);
+    EXPECT_EQ(progressM2 < progressM1, false);
+    EXPECT_EQ(progressM2 == progressM1, false);
+
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM1, false);
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM2, true);
+
+    progressM1.setProgressMeasureVec({0,2,0,2});
+    progressM2.setProgressMeasureVec({0,2,0,2});
+    EXPECT_EQ(progressM1 < progressM2, false);
+    EXPECT_EQ(progressM2 < progressM1, false);
+    EXPECT_EQ(progressM2 == progressM1, true);
+
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM1, true);
+    EXPECT_EQ(std::max(progressM1, progressM2) == progressM2, true);
+
+    ProgressMeasure progressM3(parityGame, true);
+    std::vector<ProgressMeasure> measures = {progressM1, progressM2, progressM3};
+    EXPECT_EQ(std::max_element(measures.begin(), measures.end())->isTop(), true);
 
 }

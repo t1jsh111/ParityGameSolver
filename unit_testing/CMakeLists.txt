@@ -10,6 +10,8 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 #        ../parsing/src/)
 set(TESTING_SOURCE_FILES
         ParityGameChecking.cpp
+        ProgressMeasureChecking.cpp
+        ProgressMeasureAlgoChecking.cpp
         )
 file(GLOB_RECURSE PROJ_HEADER_FILES CONFIGURE_DEPENDS ../parsing/inc/*.h ../gameAlgorithms/inc/*.h)
 file(GLOB_RECURSE PROJ_SOURCE_FILES CONFIGURE_DEPENDS ../parsing/src/*.cpp ../gameAlgorithms/src/*.cpp)

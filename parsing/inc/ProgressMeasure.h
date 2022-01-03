@@ -19,6 +19,8 @@ public:
     bool isTop() const;
     void setProgressMeasureVec(const std::vector<int> &progressMeasureVec);
 
+    void print();
+
     const std::vector<int> &getProgressMeasureVec() const;
 
     bool operator<(const ProgressMeasure& rhs) const;
