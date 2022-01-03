@@ -3,13 +3,13 @@
 //
 
 #include "ProgressMeasuresAlgo.h"
+#include "Ordering.h"
 
 #include "Node.h"
 
 
 #include <limits>
 #include <iostream>
-#include <random>
 #include <algorithm>
 
 
@@ -22,14 +22,12 @@ void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
     std::cout << "Input order: ";
     printVectorElements(order);
 
-    /*std::random_device rd;
-    std::default_random_engine rng(rd());
-    std::shuffle(order.begin(), order.end(), rng); // Random order
+    /*order = Ordering::randomOrder(order); // Random order
 
     std::cout << "Random order: ";
     printVectorElements(order);*/
 
-    /*order = evenOddPriorityOrder(order, false); // Odd first order
+    /*order = Ordering::evenOddPriorityOrder(order, false); // Odd first order
 
     std::cout << "Odd first order: ";
     printVectorElements(order);*/
@@ -163,46 +161,4 @@ void ProgressMeasuresAlgo::printVectorElements(const std::vector<std::shared_ptr
         std::cout << nodes.at(i)->getId() << "; ";
     }
     std::cout << std::endl;
-}
-
-std::vector<std::shared_ptr<Node>> ProgressMeasuresAlgo::evenOddPriorityOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
-    std::vector<std::shared_ptr<Node>> e;
-    std::vector<std::shared_ptr<Node>> o;
-    for (auto n : nodes) {
-        if (n->getPriority() % 2 == 0) {
-            e.push_back(n);
-        } else {
-            o.push_back(n);
-        }
-    }
-    std::vector<std::shared_ptr<Node>> order;
-    if (even) { // Even first
-        order.insert(order.begin(), e.begin(), e.end());
-        order.insert(order.end(), o.begin(), o.end());
-    } else { // Odd first
-        order.insert(order.begin(), o.begin(), o.end());
-        order.insert(order.end(), e.begin(), e.end());
-    }
-    return order;
-}
-
-std::vector<std::shared_ptr<Node>> ProgressMeasuresAlgo::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
-    std::vector<std::shared_ptr<Node>> e;
-    std::vector<std::shared_ptr<Node>> o;
-    for (auto n : nodes) {
-        if (n->isEven()) {
-            e.push_back(n);
-        } else {
-            o.push_back(n);
-        }
-    }
-    std::vector<std::shared_ptr<Node>> order;
-    if (even) { // Even first
-        order.insert(order.begin(), e.begin(), e.end());
-        order.insert(order.end(), o.begin(), o.end());
-    } else { // Odd first
-        order.insert(order.begin(), o.begin(), o.end());
-        order.insert(order.end(), e.begin(), e.end());
-    }
-    return order;
 }
