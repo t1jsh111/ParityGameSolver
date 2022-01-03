@@ -12,7 +12,7 @@ public:
     static void solveParityGame(const ParityGame& parityGame );
 private:
     static std::vector<int> Prog(const std::unordered_map<int, std::vector<int>>& rhoMapping, const Node& v, const Node& w, const ParityGame &parityGame);
-    static void lift(const Node& v, std::unordered_map<int, std::vector<int>>& rhoMapping);
+    static void lift(const Node& v, std::unordered_map<int, std::vector<int>>& rhoMapping, const ParityGame & parityGame);
 };
 
 
