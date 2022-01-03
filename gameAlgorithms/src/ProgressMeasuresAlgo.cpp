@@ -20,20 +20,19 @@ void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
     auto order = parityGame.getNodes(); // Input order
 
     std::cout << "Input order: ";
-    for (auto i = 0; i < order.size(); i++) {
-        std::cout << order.at(i)->getId() << "; ";
-    }
-    std::cout << std::endl;
+    printVectorElements(order);
 
-    std::random_device rd;
+    /*std::random_device rd;
     std::default_random_engine rng(rd());
     std::shuffle(order.begin(), order.end(), rng); // Random order
 
     std::cout << "Random order: ";
-    for (auto i = 0; i < order.size(); i++) {
-        std::cout << order.at(i)->getId() << "; ";
-    }
-    std::cout << std::endl;
+    printVectorElements(order);*/
+
+    /*order = evenOddPriorityOrder(order, false); // Odd first order
+
+    std::cout << "Odd first order: ";
+    printVectorElements(order);*/
 
     /*for(auto& node  : order) {
         rhoMapping[node->getPriority()] = std::vector<int>(d);
@@ -157,4 +156,53 @@ void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressM
 //    if (!updated) {
 //        rhoMapping[v.getId()] = progVectors.at(0);
 //    }
+}
+
+void ProgressMeasuresAlgo::printVectorElements(const std::vector<std::shared_ptr<Node>> nodes) {
+    for (auto i = 0; i < nodes.size(); i++) {
+        std::cout << nodes.at(i)->getId() << "; ";
+    }
+    std::cout << std::endl;
+}
+
+std::vector<std::shared_ptr<Node>> ProgressMeasuresAlgo::evenOddPriorityOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+    std::vector<std::shared_ptr<Node>> e;
+    std::vector<std::shared_ptr<Node>> o;
+    for (auto n : nodes) {
+        if (n->getPriority() % 2 == 0) {
+            e.push_back(n);
+        } else {
+            o.push_back(n);
+        }
+    }
+    std::vector<std::shared_ptr<Node>> order;
+    if (even) { // Even first
+        order.insert(order.begin(), e.begin(), e.end());
+        order.insert(order.end(), o.begin(), o.end());
+    } else { // Odd first
+        order.insert(order.begin(), o.begin(), o.end());
+        order.insert(order.end(), e.begin(), e.end());
+    }
+    return order;
+}
+
+std::vector<std::shared_ptr<Node>> ProgressMeasuresAlgo::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+    std::vector<std::shared_ptr<Node>> e;
+    std::vector<std::shared_ptr<Node>> o;
+    for (auto n : nodes) {
+        if (n->isEven()) {
+            e.push_back(n);
+        } else {
+            o.push_back(n);
+        }
+    }
+    std::vector<std::shared_ptr<Node>> order;
+    if (even) { // Even first
+        order.insert(order.begin(), e.begin(), e.end());
+        order.insert(order.end(), o.begin(), o.end());
+    } else { // Odd first
+        order.insert(order.begin(), o.begin(), o.end());
+        order.insert(order.end(), e.begin(), e.end());
+    }
+    return order;
 }
