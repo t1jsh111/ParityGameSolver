@@ -14,7 +14,7 @@ public:
     static void solveParityGame(const ParityGame& parityGame );
 private:
     static ProgressMeasure Prog(const std::unordered_map<int, ProgressMeasure>& rhoMapping, const Node& v, const Node& w, const ParityGame &parityGame);
-    static void lift(const Node& v, std::unordered_map<int, ProgressMeasure>& rhoMapping);
+    static void lift(const Node& v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame);
 };
 
 

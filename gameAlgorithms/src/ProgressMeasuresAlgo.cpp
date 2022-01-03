@@ -48,11 +48,11 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMa
     }
 }
 
-void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, std::vector<int>> &rhoMapping, const ParityGame &parityGame) {
+void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
     auto successors = v.getSuccessors();
-    std::vector<std::vector<int>> progVectors;
+    std::vector<ProgressMeasure> progMeasures;
     for (auto w : successors) {
-        progVectors.push_back(Prog(rhoMapping, v, *w, parityGame));
+        progMeasures.push_back(Prog(rhoMapping, v, *w, parityGame));
     }
     bool updated = false;
 
@@ -60,17 +60,17 @@ void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, std::vect
         for (int i = 0; i < parityGame.getDValue(); i++) { // Loop over vectors from highest to lowest significance
             // Temporarily store int values of same significance in single vector compare
             std::vector<int> compare;
-            for (std::vector<int> j : progVectors) {
-                compare.push_back(j.at(i));
+            for (ProgressMeasure j : progMeasures) {
+                compare.push_back(j.getProgressMeasureVec().at(i));
             }
 
             // Get minimum value
             auto min = std::min_element(compare.begin(), compare.end());
 
             // Eliminate candidate vectors with value higher than minimum
-            std::vector<std::vector<int>> temp;
-            for (std::vector<int> j : progVectors) {
-                if (j.at(i) == *min.base()) { // NOTE: not certain yet that min.base gives the minimum value.
+            std::vector<ProgressMeasure> temp;
+            for (ProgressMeasure j : progMeasures) {
+                if (j.getProgressMeasureVec().at(i) == *min.base()) { // NOTE: not certain yet that min.base gives the minimum value.
                     temp.push_back(j);
                 }
             }
