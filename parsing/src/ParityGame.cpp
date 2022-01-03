@@ -3,11 +3,13 @@
 //
 
 #include "ParityGame.h"
+#include "ProgressMeasure.h"
 
 #include "Node.h"
+#include <iostream>
 #include <stdexcept>
 
-ParityGame::ParityGame(int highestIdentifier) : highestIdentifier(highestIdentifier) {
+ParityGame::ParityGame(int highestIdentifier) : highestIdentifier(highestIdentifier), highestPriority(0) {
 
 }
 
@@ -45,14 +47,6 @@ int ParityGame::getHighestIdentifier() const {
 }
 
 int ParityGame::getDValue() const {
-//    if(nodes.empty()) {
-//        throw std::runtime_error("Tries to get d value of empty parity game");
-//    }
-//    int dValue = nodes[0]->getPriority();
-//
-//    for(const auto& node : nodes) {
-//        dValue = std::max(dValue, node->getPriority());
-//    }
 
     return highestPriority+1;
 }
@@ -68,3 +62,17 @@ int ParityGame::getNumberOfVerticesWithPriority(int priority) const {
 const std::vector<std::shared_ptr<Node>> &ParityGame::getNodes() const {
     return nodes;
 }
+
+ProgressMeasure ParityGame::getProgressMeasureDomainMaximum() {
+    ProgressMeasure domainMaximum(*this);
+    std::vector<int> domainMaximumVec(getDValue());
+    for(int i = 0; i < getDValue(); i++) {
+
+        if(i % 2 == 1) {
+            domainMaximumVec[i] = getNumberOfVerticesWithPriority(i);
+        }
+    }
+    domainMaximum.setProgressMeasureVec(domainMaximumVec);
+    return domainMaximum;
+}
+

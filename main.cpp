@@ -14,7 +14,9 @@ int main() {
     ParityGame parityGame = Parser::parseParityGame(filePath);
     auto node = parityGame.getNodeById(501);
     node.printSuccessors();
-    std::cout << "id: " << node.getId() << " priority: " << node.getPriority() << " owner: " << node.getOwner();
+    std::cout << "id: " << node.getId() << " priority: " << node.getPriority() << " owner: " << node.getOwner() << std::endl;
+
+    std::cout << "d value: "  << parityGame.getDValue();
 
     return 0;
 }

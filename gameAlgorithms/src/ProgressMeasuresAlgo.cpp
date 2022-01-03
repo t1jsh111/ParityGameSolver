@@ -6,6 +6,7 @@
 
 #include "Node.h"
 
+
 #include <limits>
 
 void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
@@ -20,52 +21,33 @@ void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
 
 }
 
-std::vector<int>
-ProgressMeasuresAlgo::Prog(const std::unordered_map<int, std::vector<int>> &rhoMapping, const Node &v, const Node &w, const ParityGame &parityGame) {
+ProgressMeasure
+ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMapping, const Node &v, const Node &w, const ParityGame &parityGame) {
 
     std::vector<int> leastVector(parityGame.getDValue());
 
     auto rhoForW = rhoMapping.at(w.getId());
 
-    bool isTop = true;
-    for(int i : rhoForW) {
-        if(i != std::numeric_limits<int>::max()) {
-            isTop = false;
-            break;
-        }
-    }
-
-
     // Priority of v is even
     if(v.getPriority() % 2 == 0) {
         // only top >= top
-        if(isTop) {
+        if(rhoForW.isTop()) {
             return rhoForW;
         } else {
-            for(int i = 0; i <= v.getPriority(); i++) {
-                leastVector[i] = rhoForW[i];
-            }
+            return rhoForW.getEvenProg(v.getPriority());
         }
 
     } else { // priority of v is odd
         // only top > top
-        if(isTop) {
+        if(rhoForW.isTop()) {
             return rhoForW;
         } else {
-            for(int i = 0; i <= v.getPriority(); i++) {
-                if(rhoForW[i] + 1 <= parityGame.getNumberOfVerticesWithPriority(i)) {
-                    leastVector[i] = rhoForW[i] + 1;
-                } else {
-                    std::vector<int> top(parityGame.getDValue());
-                    for(int i = 0; i < parityGame.getDValue(); i++) {top[i] = std::numeric_limits<int>::max();}
-                    return top;
-                }
-            }
+            return rhoForW.getOddProg(v.getPriority());
         }
     }
 }
 
-void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, std::vector<int>> &rhoMapping) {
+void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure> &rhoMapping) {
     if(v.isEven()) {
         //rhoMapping[v.getId()] = std::max(rhoMapping[v])
     } else { // v is odd

@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 
+class ProgressMeasure;
 class Node;
 
 class ParityGame {
@@ -16,7 +17,6 @@ public:
     explicit ParityGame(int highestIdentifier);
 
     void addNode(std::shared_ptr<Node> node);
-
 
 
     int getNumberOfVerticesWithPriority(int priority) const;
@@ -29,6 +29,10 @@ public:
     int getHighestIdentifier() const;
 
     int getDValue() const;
+
+    ProgressMeasure getProgressMeasureDomainMaximum();
+
+
 
 private:
     int highestIdentifier;
