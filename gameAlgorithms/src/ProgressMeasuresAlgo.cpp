@@ -3,13 +3,13 @@
 //
 
 #include "ProgressMeasuresAlgo.h"
+#include "Ordering.h"
 
 #include "Node.h"
 
 
 #include <limits>
 #include <iostream>
-#include <random>
 #include <algorithm>
 
 
@@ -20,20 +20,17 @@ void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
     auto order = parityGame.getNodes(); // Input order
 
     std::cout << "Input order: ";
-    for (auto i = 0; i < order.size(); i++) {
-        std::cout << order.at(i)->getId() << "; ";
-    }
-    std::cout << std::endl;
+    printVectorElements(order);
 
-    std::random_device rd;
-    std::default_random_engine rng(rd());
-    std::shuffle(order.begin(), order.end(), rng); // Random order
+    /*order = Ordering::randomOrder(order); // Random order
 
     std::cout << "Random order: ";
-    for (auto i = 0; i < order.size(); i++) {
-        std::cout << order.at(i)->getId() << "; ";
-    }
-    std::cout << std::endl;
+    printVectorElements(order);*/
+
+    /*order = Ordering::evenOddPriorityOrder(order, false); // Odd first order
+
+    std::cout << "Odd first order: ";
+    printVectorElements(order);*/
 
     /*for(auto& node  : order) {
         rhoMapping[node->getPriority()] = std::vector<int>(d);
@@ -84,4 +81,11 @@ void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressM
         rhoMapping[v.getId()] = updatedProgressMeasure;
     }
 
+}
+
+void ProgressMeasuresAlgo::printVectorElements(const std::vector<std::shared_ptr<Node>> nodes) {
+    for (auto i = 0; i < nodes.size(); i++) {
+        std::cout << nodes.at(i)->getId() << "; ";
+    }
+    std::cout << std::endl;
 }
