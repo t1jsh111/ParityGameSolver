@@ -13,28 +13,28 @@
 #include <algorithm>
 
 
-void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
+void ProgressMeasuresAlgo::solveParityGame(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
 
-    std::unordered_map<int, std::vector<int>> rhoMapping;
+
     int d = parityGame.getDValue();
     auto order = parityGame.getNodes(); // Input order
 
-    std::cout << "Input order: ";
-    printVectorElements(order);
+    //std::cout << "Input order: ";
+    //printVectorElements(order);
 
-    /*order = Ordering::randomOrder(order); // Random order
+    order = Ordering::randomOrder(order); // Random order
 
-    std::cout << "Random order: ";
-    printVectorElements(order);*/
+    bool madeUpdate = true;
+    while(madeUpdate) {
+        madeUpdate = false;
+        for(const auto& node : order) {
+            bool lifted = lift(*node, rhoMapping, parityGame);
+            if(lifted) {
+                madeUpdate = true;
+            }
+        }
+    }
 
-    /*order = Ordering::evenOddPriorityOrder(order, false); // Odd first order
-
-    std::cout << "Odd first order: ";
-    printVectorElements(order);*/
-
-    /*for(auto& node  : order) {
-        rhoMapping[node->getPriority()] = std::vector<int>(d);
-    }*/
 }
 
 ProgressMeasure
@@ -63,7 +63,7 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMa
     }
 }
 
-void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
+bool ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
     auto successors = v.getSuccessors();
     std::vector<ProgressMeasure> progMeasures;
     for (auto w : successors) {
@@ -72,13 +72,25 @@ void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressM
     if(v.isEven()) {
         ProgressMeasure minElement = *std::min_element(progMeasures.begin(), progMeasures.end());
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), minElement);
-        rhoMapping[v.getId()] = updatedProgressMeasure;
+        if(rhoMapping[v.getId()] == updatedProgressMeasure) {
+            return false;
+        } else {
+            rhoMapping[v.getId()] = updatedProgressMeasure;
+            return true;
+        }
+
 
     } else { // v is odd
         ProgressMeasure maxElement = *std::max_element(progMeasures.begin(), progMeasures.end());
 
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), maxElement);
-        rhoMapping[v.getId()] = updatedProgressMeasure;
+
+        if(rhoMapping[v.getId()] == updatedProgressMeasure) {
+            return false;
+        } else {
+            rhoMapping[v.getId()] = updatedProgressMeasure;
+            return true;
+        }
     }
 
 }

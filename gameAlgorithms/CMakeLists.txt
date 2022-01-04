@@ -1,8 +1,9 @@
 set(SOURCE_FILES
         src/ProgressMeasuresAlgo.cpp
-        inc/Ordering.h src/Ordering.cpp)
+        src/Ordering.cpp)
 
 set(HEADER_FILES
+        inc/Ordering.h
         inc/ProgressMeasuresAlgo.h
         )
 
