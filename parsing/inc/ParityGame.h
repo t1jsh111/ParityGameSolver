@@ -21,6 +21,8 @@ public:
 
     int getNumberOfVerticesWithPriority(int priority) const;
 
+    std::vector<std::shared_ptr<Node>>& getNodesWithPriority(int priority);
+
     const std::vector<std::shared_ptr<Node>>& getNodes() const;
 
     const Node& getNodeById(int id) const;

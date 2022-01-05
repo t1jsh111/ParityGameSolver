@@ -22,10 +22,10 @@ void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
     std::cout << "Input order: ";
     printVectorElements(order);
 
-    /*order = Ordering::randomOrder(order); // Random order
+    order = Ordering::evenOddHighLowPrioOrder(parityGame, true, true); // Random order
 
-    std::cout << "Random order: ";
-    printVectorElements(order);*/
+    std::cout << "High to low order: ";
+    printVectorElements(order);
 
     /*order = Ordering::evenOddPriorityOrder(order, false); // Odd first order
 

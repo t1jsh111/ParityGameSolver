@@ -10,7 +10,7 @@
 
 
 int main() {
-    std::string filePath = "resources/ccp_games/german_linear_2.infinite_run_no_access.gm";
+    std::string filePath = "resources/ccp_games/german_linear_2.invariantly_eventually_fair_shared_access.gm";
 
     ParityGame parityGame = Parser::parseParityGame(filePath);
     auto vec = parityGame.getNodes();
