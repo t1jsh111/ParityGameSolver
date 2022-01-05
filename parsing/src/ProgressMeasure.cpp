@@ -133,7 +133,7 @@ top(false), correspondingParityGame(nullptr){
 
 }
 
-void ProgressMeasure::print() {
+void ProgressMeasure::print() const {
     if(top) {
         std::cout << "Is top" << std::endl;
     } else {

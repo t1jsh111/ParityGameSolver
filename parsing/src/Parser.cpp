@@ -34,9 +34,7 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
     ParityGame parityGame(highestIdentifier);
 
     // create node objects..
-    while(!autFile.eof()) {
-
-        autFile >> currentWord;
+    while(autFile >> currentWord) {
         int nodeIdentifier = std::stoi(currentWord);
 
         autFile >> currentWord;

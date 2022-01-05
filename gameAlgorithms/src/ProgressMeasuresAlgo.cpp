@@ -13,28 +13,25 @@
 #include <algorithm>
 
 
-void ProgressMeasuresAlgo::solveParityGame(const ParityGame &parityGame) {
+void ProgressMeasuresAlgo::solveParityGame(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
 
-    std::unordered_map<int, std::vector<int>> rhoMapping;
+
     int d = parityGame.getDValue();
     auto order = parityGame.getNodes(); // Input order
 
-    std::cout << "Input order: ";
-    printVectorElements(order);
+    order = Ordering::randomOrder(order); // Random order
 
-    order = Ordering::evenOddHighLowPrioOrder(parityGame, true, true); // Random order
+    bool madeUpdate = true;
+    while(madeUpdate) {
+        madeUpdate = false;
+        for(const auto& node : order) {
+            bool lifted = lift(*node, rhoMapping, parityGame);
+            if(lifted) {
+                madeUpdate = true;
+            }
+        }
+    }
 
-    std::cout << "High to low order: ";
-    printVectorElements(order);
-
-    /*order = Ordering::evenOddPriorityOrder(order, false); // Odd first order
-
-    std::cout << "Odd first order: ";
-    printVectorElements(order);*/
-
-    /*for(auto& node  : order) {
-        rhoMapping[node->getPriority()] = std::vector<int>(d);
-    }*/
 }
 
 ProgressMeasure
@@ -63,7 +60,7 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMa
     }
 }
 
-void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
+bool ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
     auto successors = v.getSuccessors();
     std::vector<ProgressMeasure> progMeasures;
     for (auto w : successors) {
@@ -72,88 +69,27 @@ void ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressM
     if(v.isEven()) {
         ProgressMeasure minElement = *std::min_element(progMeasures.begin(), progMeasures.end());
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), minElement);
-        rhoMapping[v.getId()] = updatedProgressMeasure;
+        if(rhoMapping[v.getId()] == updatedProgressMeasure) {
+            return false;
+        } else {
+            rhoMapping[v.getId()] = updatedProgressMeasure;
+            return true;
+        }
+
 
     } else { // v is odd
         ProgressMeasure maxElement = *std::max_element(progMeasures.begin(), progMeasures.end());
 
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), maxElement);
-        rhoMapping[v.getId()] = updatedProgressMeasure;
+
+        if(rhoMapping[v.getId()] == updatedProgressMeasure) {
+            return false;
+        } else {
+            rhoMapping[v.getId()] = updatedProgressMeasure;
+            return true;
+        }
     }
 
-//    bool updated = false;
-//
-//    if(v.isEven()) { // v is even
-//        for (int i = 0; i < parityGame.getDValue(); i++) { // Loop over vectors from highest to lowest significance
-//            // Temporarily store int values of same significance in single vector compare
-//            std::vector<int> compare;
-//            for (ProgressMeasure j : progMeasures) {
-//                compare.push_back(j.getProgressMeasureVec().at(i));
-//            }
-//
-//            // Get minimum value
-//            auto min = std::min_element(compare.begin(), compare.end());
-//
-//            // Eliminate candidate vectors with value higher than minimum
-//            std::vector<ProgressMeasure> temp;
-//            for (ProgressMeasure j : progMeasures) {
-//                if (j.getProgressMeasureVec().at(i) == *min.base()) { // NOTE: not certain yet that min.base gives the minimum value.
-//                    temp.push_back(j);
-//                }
-//            }
-//            progVectors = temp;
-//
-//            // Prematurely break when only one candidate remains
-//            if (progVectors.size() == 1) {
-//                rhoMapping[v.getId()] = progVectors.at(0);
-//                updated = true;
-//                break;
-//            }
-//        }
-//    } else { // v is odd
-//        bool top = false;
-//
-//        // Check if there is a top in progVectors
-//        /*for (std::vector<int> i : progVectors) {
-//            if (there is a top) {
-//                rhoMapping[v.getId()] = i;
-//                updated = true;
-//                top = true;
-//                break;
-//            }
-//        }*/
-//
-//        for (int i = 0; i < parityGame.getDValue() && !top; i++) { // Loop over vectors from highest to lowest significance
-//            // Temporarily store int values of same significance in single vector compare
-//            std::vector<int> compare;
-//            for (std::vector<int> j : progVectors) {
-//                compare.push_back(j.at(i));
-//            }
-//
-//            // Get maximum value
-//            auto max = std::max_element(compare.begin(), compare.end());
-//
-//            // Eliminate candidate vectors with value lower than maximum
-//            std::vector<std::vector<int>> temp;
-//            for (std::vector<int> j : progVectors) {
-//                if (j.at(i) == *max.base()) { // NOTE: not certain yet that max.base gives the maximum value.
-//                    temp.push_back(j);
-//                }
-//            }
-//            progVectors = temp;
-//
-//            // Prematurely break when only one candidate remains
-//            if (progVectors.size() == 1) {
-//                rhoMapping[v.getId()] = progVectors.at(0);
-//                updated = true;
-//                break;
-//            }
-//        }
-//    }
-//
-//    if (!updated) {
-//        rhoMapping[v.getId()] = progVectors.at(0);
-//    }
 }
 
 void ProgressMeasuresAlgo::printVectorElements(const std::vector<std::shared_ptr<Node>> nodes) {

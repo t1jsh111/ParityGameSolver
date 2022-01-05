@@ -19,7 +19,7 @@ public:
     bool isTop() const;
     void setProgressMeasureVec(const std::vector<int> &progressMeasureVec);
 
-    void print();
+    void print() const;
 
     const std::vector<int> &getProgressMeasureVec() const;
 

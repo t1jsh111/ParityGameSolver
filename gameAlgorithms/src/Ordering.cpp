@@ -19,7 +19,7 @@ std::vector<std::shared_ptr<Node>> Ordering::randomOrder(const std::vector<std::
 std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
-    for (auto n : nodes) {
+    for (const auto& n : nodes) {
         if (n->getPriority() % 2 == 0) {
             e.push_back(n);
         } else {
@@ -40,7 +40,7 @@ std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std:
 std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
-    for (auto n : nodes) {
+    for (const auto& n : nodes) {
         if (n->isEven()) {
             e.push_back(n);
         } else {
