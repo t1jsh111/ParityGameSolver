@@ -16,7 +16,7 @@ std::vector<std::shared_ptr<Node>> Ordering::randomOrder(const std::vector<std::
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> Ordering::evenOddPriorityOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (auto n : nodes) {
@@ -37,7 +37,7 @@ std::vector<std::shared_ptr<Node>> Ordering::evenOddPriorityOrder(const std::vec
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (auto n : nodes) {
@@ -58,7 +58,7 @@ std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std:
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> Ordering::highLowPriorityOrder(ParityGame parityGame,
+std::vector<std::shared_ptr<Node>> Ordering::priorityOrder(ParityGame parityGame,
                                                                   const bool highLow) {
     std::vector<std::shared_ptr<Node>> order;
     if (highLow) {
@@ -78,7 +78,7 @@ std::vector<std::shared_ptr<Node>> Ordering::highLowPriorityOrder(ParityGame par
 }
 
 std::vector<std::shared_ptr<Node>>
-Ordering::evenOddPrioHighLowPrioOrder(ParityGame parityGame, const bool even, const bool highLow) {
+Ordering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
@@ -114,7 +114,7 @@ Ordering::evenOddPrioHighLowPrioOrder(ParityGame parityGame, const bool even, co
 }
 
 std::vector<std::shared_ptr<Node>>
-Ordering::evenOddHighLowPrioOrder(ParityGame parityGame, const bool even, const bool highLow) {
+Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
