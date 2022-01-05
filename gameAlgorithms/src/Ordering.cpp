@@ -41,7 +41,7 @@ std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std:
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (const auto& n : nodes) {
-        if (n->isEven()) {
+        if (n->isDiamond()) {
             e.push_back(n);
         } else {
             o.push_back(n);
