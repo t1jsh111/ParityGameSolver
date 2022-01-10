@@ -1,25 +1,25 @@
 //
-// Created by Tijs Hoeijmakers on 05/01/2022.
+// Created by Tijs Hoeijmakers on 10/01/2022.
 //
 
 #ifndef PARITYGAMESOLVER_WORKINGLISTORDERER_H
 #define PARITYGAMESOLVER_WORKINGLISTORDERER_H
-
-#include "Node.h"
-#include "ProgressMeasure.h"
-
-#include <list>
-#include <memory>
 #include <unordered_map>
+#include <memory>
+#include <queue>
+#include "Node.h"
+#include "Orderer.h"
 
-class WorkingListOrderer {
+class WorkingListOrderer : public Orderer {
 public:
-     std::list<std::shared_ptr<Node>> getInitialWorkingList(const std::vector<std::shared_ptr<Node>>& nodes);
+    void addNode(std::shared_ptr<Node> node) override;
 
-     void appendPredecessorsOfNodeToWorkingList(const Node& node, std::list<std::shared_ptr<Node>>& workingList, const std::unordered_map<int, ProgressMeasure>& rhoMapping);
+    std::shared_ptr<Node> popFront() override;
 
+    bool isEmpty() const override;
 
-
+private:
+    std::queue<std::shared_ptr<Node>> workingList;
 };
 
 

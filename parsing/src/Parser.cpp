@@ -80,6 +80,9 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
             auto successorNode = parityGame.getNode(successorIdentifier);
             successorNodes.insert(successorNode);
             successorNode->addPredecessor(node);
+            if(successorNode == node) {
+                node->setSelfLoop(true);
+            }
         }
 
         // There is a label

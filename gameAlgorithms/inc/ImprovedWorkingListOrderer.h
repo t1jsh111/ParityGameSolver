@@ -9,30 +9,32 @@
 #include <memory>
 #include <queue>
 #include "Node.h"
+#include "Orderer.h"
 
-class ImprovedWorkingListOrderer {
+class ImprovedWorkingListOrderer : public Orderer{
 public:
-    void addNodeToWorkList(std::shared_ptr<Node> node, bool wasPredecessorOfUpdate = false);
+    void addNode(std::shared_ptr<Node> node) override;
+    void addNode(std::shared_ptr<Node> node, bool wasPredecessorOfUpdate);
 
-    std::shared_ptr<Node> popFront();
+    std::shared_ptr<Node> popFront() override;
 
     bool isEmpty() const;
 private:
     std::unordered_map<std::shared_ptr<Node>, bool> needsUpdate;
 
-    std::queue<std::shared_ptr<Node>> squareOddWithSelfLoop;
+    std::queue<std::shared_ptr<Node>> level1;
     std::queue<std::shared_ptr<Node>> importantUpdate; // depends on updated node, and is square or depends on update and is diamond with single edge
     std::queue<std::shared_ptr<Node>> squareOddWithoutSelfloop;
     std::queue<std::shared_ptr<Node>> squareEven;
     std::queue<std::shared_ptr<Node>> diamondMultiEdgeUpdate;
 
-    std::queue<std::shared_ptr<Node>> diamondSingleEdge;
-    std::queue<std::shared_ptr<Node>> diamondMultiEdgeEven;
+    std::queue<std::shared_ptr<Node>> remainingDiamondSingleEdge;
     std::queue<std::shared_ptr<Node>> diamondMultiEdgeOdd;
+    std::queue<std::shared_ptr<Node>> diamondMultiEdgeEven;
 
-    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&squareOddWithSelfLoop, &squareOddWithoutSelfloop,
+    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&level1, &squareOddWithoutSelfloop,
                                                               &importantUpdate, &squareEven, &diamondMultiEdgeUpdate,
-                                                              &diamondSingleEdge, &diamondMultiEdgeEven, &diamondMultiEdgeOdd};
+                                                              &remainingDiamondSingleEdge, &diamondMultiEdgeOdd, &diamondMultiEdgeEven};
 
     int numberOfUpdateNodes = 0;
 

@@ -13,6 +13,7 @@ set(TESTING_SOURCE_FILES
         ProgressMeasureChecking.cpp
         ProgressMeasureAlgoChecking.cpp
         AlgorithmChecking.cpp
+        ex3Checking.cpp
         )
 file(GLOB_RECURSE PROJ_HEADER_FILES CONFIGURE_DEPENDS ../parsing/inc/*.h ../gameAlgorithms/inc/*.h)
 file(GLOB_RECURSE PROJ_SOURCE_FILES CONFIGURE_DEPENDS ../parsing/src/*.cpp ../gameAlgorithms/src/*.cpp)

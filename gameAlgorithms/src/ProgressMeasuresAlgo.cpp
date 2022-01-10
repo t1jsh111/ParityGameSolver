@@ -4,7 +4,7 @@
 
 #include "ProgressMeasuresAlgo.h"
 #include "Ordering.h"
-#include "WorkingListOrderer.h"
+#include "OtherWorkingListOrderer.h"
 
 #include "Node.h"
 
@@ -24,7 +24,7 @@ void ProgressMeasuresAlgo::solveParityGame(ParityGame &parityGame, std::unordere
 
     //std::cout << "Input order: ";
     //printVectorElements(order);
-//    WorkingListOrderer orderer;
+//    OtherWorkingListOrderer orderer;
 //    auto workingList = orderer.getInitialWorkingList(parityGame.getNodes());
 
 
@@ -54,7 +54,7 @@ void ProgressMeasuresAlgo::solveParityGameWorkList(ParityGame &parityGame, std::
 
     //std::cout << "Input order: ";
     //printVectorElements(order);
-    WorkingListOrderer orderer;
+    OtherWorkingListOrderer orderer;
     auto workingList = orderer.getInitialWorkingList(parityGame.getNodes());
 
 
@@ -89,7 +89,7 @@ void ProgressMeasuresAlgo::solveParityGameImprovedWorkList(ParityGame &parityGam
 
     ImprovedWorkingListOrderer workingList;
     for(const auto& node : parityGame.getNodes()) {
-        workingList.addNodeToWorkList(node);
+        workingList.addNode(node);
     }
 
 
@@ -103,7 +103,7 @@ void ProgressMeasuresAlgo::solveParityGameImprovedWorkList(ParityGame &parityGam
 
         if(lifted) {
             for(const auto& predecessor : node->getPredecessors()) {
-                workingList.addNodeToWorkList(predecessor);
+                workingList.addNode(predecessor);
             }
         }
         //continue lifting until stability is reached..

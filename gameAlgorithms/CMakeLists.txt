@@ -1,14 +1,17 @@
 set(SOURCE_FILES
         src/ProgressMeasuresAlgo.cpp
         src/Ordering.cpp
-        src/WorkingListOrderer.cpp
-        src/ImprovedWorkingListOrderer.cpp)
+        src/OtherWorkingListOrderer.cpp
+        src/ImprovedWorkingListOrderer.cpp
+        src/WorkingListOrderer.cpp)
 
 set(HEADER_FILES
         inc/Ordering.h
         inc/ProgressMeasuresAlgo.h
-        inc/WorkingListOrderer.h
+        inc/OtherWorkingListOrderer.h
         inc/ImprovedWorkingListOrderer.h
+        inc/WorkingListOrderer.h
+        inc/Orderer.h
         )
 
 add_library(GameAlgorithmsLibrary ${SOURCE_FILES})

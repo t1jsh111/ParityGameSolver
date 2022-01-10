@@ -8,8 +8,12 @@ bool ImprovedWorkingListOrderer::isEmpty() const {
     return numberOfUpdateNodes == 0;
 }
 
-void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, bool wasPredecessorOfUpdate) {
+void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node) {
+    addNode(node, false);
+}
 
+
+void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPredecessorOfUpdate) {
 
 
     if(needsUpdate.find(node) == needsUpdate.end() || !needsUpdate.at(node)) {
@@ -18,7 +22,8 @@ void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, b
     needsUpdate[node] = true;
 
 
-//    std::queue<std::shared_ptr<Node>> squareOddWithSelfLoop;
+//    std::queue<std::shared_ptr<Node>> level1;
+//    std::queue<std::shared_ptr<Node>> diamondEvenSingleEdgeSelfLoop;
 //    std::queue<std::shared_ptr<Node>> importantUpdate; // depends on updated node, and is square or depends on update and is diamond with single edge
 //    std::queue<std::shared_ptr<Node>> squareOddWithoutSelfloop;
 //    std::queue<std::shared_ptr<Node>> squareEven;
@@ -38,7 +43,7 @@ void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, b
         if(node->isSquare()) {
             if(node->hasOddPriority()) {
                 if(node->hasSelfLoop()) {
-                    squareOddWithSelfLoop.push(node);
+                    level1.push(node);
                 } else {
                     squareOddWithoutSelfloop.push(node);
                 }
@@ -47,7 +52,13 @@ void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, b
             }
         } else { // node is diamond
             if(node->hasOnlySingleSuccessor()) {
-                diamondSingleEdge.push(node);
+
+                if(node->hasSelfLoop() && node->hasOddPriority()) {
+                    level1.push(node);
+                } else {
+                    remainingDiamondSingleEdge.push(node);
+                }
+
             } else {
                 if(node->hasEvenPriority()) {
                     diamondMultiEdgeEven.push(node);
@@ -88,3 +99,4 @@ std::shared_ptr<Node> ImprovedWorkingListOrderer::popFront() {
     throw std::runtime_error("Should not be reachable");
 
 }
+
