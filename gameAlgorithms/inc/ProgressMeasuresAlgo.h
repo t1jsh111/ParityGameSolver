@@ -12,6 +12,8 @@
 class ProgressMeasuresAlgo {
 public:
     static void solveParityGame(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
+    static void solveParityGameWorkList(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
+    static void solveParityGameImprovedWorkList(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
 
     static ProgressMeasure Prog(const std::unordered_map<int, ProgressMeasure>& rhoMapping, const Node& v, const Node& w, const ParityGame &parityGame);
     static bool lift(const Node& v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame);
