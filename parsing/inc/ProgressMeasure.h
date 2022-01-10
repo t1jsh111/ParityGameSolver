@@ -17,6 +17,7 @@ public:
     ProgressMeasure getEvenProg(int priority) const;
     ProgressMeasure getOddProg(int priority) const;
     bool isTop() const;
+    ProgressMeasure setTop();
     void setProgressMeasureVec(const std::vector<int> &progressMeasureVec);
 
     void print() const;

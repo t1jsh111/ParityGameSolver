@@ -2,15 +2,15 @@
 // Created by Tijs Hoeijmakers on 05/01/2022.
 //
 
-#include "ImprovedWorkingListOrderer.h"
+#include "AlternativeWorkingListOrderer.h"
 
 #include <stdexcept>
 
-bool ImprovedWorkingListOrderer::isEmpty() const {
+bool AlternativeWorkingListOrderer::isEmpty() const {
     return numberOfUpdateNodes == 0;
 }
 
-void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, bool wasPredecessorOfUpdate) {
+void AlternativeWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, std::unordered_map<int, ProgressMeasure>& rhoMapping, bool wasPredecessorOfUpdate) {
 
 
 
@@ -19,16 +19,13 @@ void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, b
     }
     needsUpdate[node] = true;
 
-
-//    std::queue<std::shared_ptr<Node>> squareOddWithSelfLoop;
-//    std::queue<std::shared_ptr<Node>> importantUpdate; // depends on updated node, and is square or depends on update and is diamond with single edge
-//    std::queue<std::shared_ptr<Node>> squareOddWithoutSelfloop;
-//    std::queue<std::shared_ptr<Node>> squareEven;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeUpdate;
-//
-//    std::queue<std::shared_ptr<Node>> diamondSingleEdge;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeEven;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeOdd;
+    if (node->hasOnlySingleSuccessor() && node->hasSelfLoop()) {
+        needsUpdate[node] = false;
+        if (node->hasOddPriority()) {
+            rhoMapping[node->getId()] = rhoMapping[node->getId()].setTop();
+        }
+        return;
+    }
 
     if(wasPredecessorOfUpdate) {
         if(node->isSquare() || (node->isDiamond() && node->hasOnlySingleSuccessor())) {
@@ -64,7 +61,7 @@ void ImprovedWorkingListOrderer::addNodeToWorkList(std::shared_ptr<Node> node, b
 
 }
 
-std::shared_ptr<Node> ImprovedWorkingListOrderer::popFront() {
+std::shared_ptr<Node> AlternativeWorkingListOrderer::popFront() {
     if(numberOfUpdateNodes <= 0) {
         throw std::runtime_error(" The worklist is empty");
     }

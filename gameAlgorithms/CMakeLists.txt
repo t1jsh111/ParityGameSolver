@@ -2,7 +2,7 @@ set(SOURCE_FILES
         src/ProgressMeasuresAlgo.cpp
         src/Ordering.cpp
         src/WorkingListOrderer.cpp
-        src/ImprovedWorkingListOrderer.cpp)
+        src/ImprovedWorkingListOrderer.cpp inc/AlternativeWorkingListOrderer.h src/AlternativeWorkingListOrdered.cpp)
 
 set(HEADER_FILES
         inc/Ordering.h

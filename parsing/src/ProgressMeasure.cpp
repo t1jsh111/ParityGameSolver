@@ -81,7 +81,10 @@ void ProgressMeasure::setProgressMeasureVec(const std::vector<int> &progressMeas
     ProgressMeasure::progressMeasureVec = progressMeasureVec;
 }
 
-
+ProgressMeasure ProgressMeasure::setTop() {
+    ProgressMeasure top(correspondingParityGame, true);
+    return top;
+}
 
 bool ProgressMeasure::isTop() const {
     return top;
