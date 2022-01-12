@@ -22,14 +22,8 @@ void ProgressMeasuresAlgo::solveParityGame(ParityGame &parityGame, std::unordere
     int d = parityGame.getDValue();
     auto workingList = parityGame.getNodes(); // Input order
 
-    //std::cout << "Input order: ";
-    //printVectorElements(order);
-//    OtherWorkingListOrderer orderer;
-//    auto workingList = orderer.getInitialWorkingList(parityGame.getNodes());
 
-
-//    order = Ordering::randomOrder(order); // Random order
-    auto start = std::chrono::high_resolution_clock::now();
+    order = Ordering::randomOrder(order); // Random order
 
     bool madeUpdate = true;
     while(madeUpdate) {
