@@ -59,7 +59,7 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
                         level3.push(node);
                     }
                 } else {
-                    level6.push(node);
+                    level4.push(node);
                 }
 
 //                if(node->hasSelfLoop() && node->hasOddPriority()) {
