@@ -27,14 +27,12 @@ private:
     std::queue<std::shared_ptr<Node>> level3;
     std::queue<std::shared_ptr<Node>> level4;
     std::queue<std::shared_ptr<Node>> level5;
-
     std::queue<std::shared_ptr<Node>> level6;
     std::queue<std::shared_ptr<Node>> level7;
-    std::queue<std::shared_ptr<Node>> level8;
 
-    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&level1, &level3,
-                                                              &level2, &level4, &level7,
-                                                               &level5, &level8};
+    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&level1, &level2,
+                                                              &level3, &level4, &level5,
+                                                              &level6, &level7};
 
     int numberOfUpdateNodes = 0;
 
