@@ -142,6 +142,98 @@ TEST_F(Ex3Testing, printingFig4) {
 
 }
 
+TEST_F(Ex3Testing, printingFig5) {
+
+    setParityGame("../resources/ex3/fig5.gm");
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    for(const auto& node : parityGame->getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
+
+        rhoMapping1[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+
+    for(const auto& node : parityGame->getNodes()) {
+        std::cout << "node: " << node->getId() << " evals to ";
+        rhoMapping1[node->getId()].print();
+        std::cout << std::endl;
+    }
+
+
+}
+
+TEST_F(Ex3Testing, printingFig6) {
+
+    setParityGame("../resources/ex3/fig6.gm");
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    for(const auto& node : parityGame->getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
+
+        rhoMapping1[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+
+    for(const auto& node : parityGame->getNodes()) {
+        std::cout << "node: " << node->getId() << " evals to ";
+        rhoMapping1[node->getId()].print();
+        std::cout << std::endl;
+    }
+
+
+}
+
+TEST_F(Ex3Testing, printingFig7) {
+
+    setParityGame("../resources/ex3/fig7.gm");
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    for(const auto& node : parityGame->getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
+
+        rhoMapping1[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+
+    for(const auto& node : parityGame->getNodes()) {
+        std::cout << "node: " << node->getId() << " evals to ";
+        rhoMapping1[node->getId()].print();
+        std::cout << std::endl;
+    }
+
+
+}
+
+TEST_F(Ex3Testing, printingFig8) {
+
+    setParityGame("../resources/ex3/fig8.gm");
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    for(const auto& node : parityGame->getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
+
+        rhoMapping1[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+
+    for(const auto& node : parityGame->getNodes()) {
+        std::cout << "node: " << node->getId() << " evals to ";
+        rhoMapping1[node->getId()].print();
+        std::cout << std::endl;
+    }
+
+
+}
+
 
 TEST_F(Ex3Testing, SlideTest) {
 
