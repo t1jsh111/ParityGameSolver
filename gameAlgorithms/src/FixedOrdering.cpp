@@ -59,7 +59,6 @@ std::vector<std::shared_ptr<Node>> FixedOrdering::ownerOrder(const std::vector<s
     return order;
 }
 
-// TODO: make work when not all priorities appear
 std::vector<std::shared_ptr<Node>> FixedOrdering::priorityOrder(ParityGame parityGame,
                                                                 const bool highLow) {
     std::vector<std::shared_ptr<Node>> order;
