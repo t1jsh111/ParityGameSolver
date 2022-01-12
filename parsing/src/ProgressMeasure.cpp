@@ -17,6 +17,7 @@ ProgressMeasure ProgressMeasure::getEvenProg(int priority) const {
     if(priority % 2 != 0) {
         throw std::runtime_error("priority provided is not even");
     }
+    // TODO: handle situation where we go over the maximum
 
     if(isTop()) {
         return *this;
