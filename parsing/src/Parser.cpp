@@ -9,7 +9,6 @@
 #include <memory>
 #include <limits>
 #include <sstream>
-#include <unordered_set>
 #include "Node.h"
 
 
@@ -73,13 +72,12 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
 
         // Form vector of successor nodes
         fileStream >> currentWord;
-        std::unordered_set<std::shared_ptr<Node>> successorNodes;
+        std::vector<std::shared_ptr<Node>> successorNodes;
 
         auto successorIdentifiers = commaSeparateString(currentWord);
         for(int successorIdentifier : successorIdentifiers) {
             auto successorNode = parityGame.getNode(successorIdentifier);
-            successorNodes.insert(successorNode);
-            successorNode->addPredecessor(node);
+            successorNodes.push_back(successorNode);
         }
 
         // There is a label

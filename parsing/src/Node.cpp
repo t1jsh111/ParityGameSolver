@@ -8,14 +8,16 @@
 #include <iostream>
 
 Node::Node(int id, int priority, bool owner) :
-id(id), priority(priority), owner(owner), selfLoop(false)
+id(id), priority(priority), owner(owner)
 {
 
 }
 
+std::vector<std::shared_ptr<Node>> Node::getSuccessors() const {
+    return successors;
+}
 
-
-void Node::setSuccessors(std::unordered_set<std::shared_ptr<Node>> successors) {
+void Node::setSuccessors(std::vector<std::shared_ptr<Node>> successors) {
     this->successors = std::move(successors);
 }
 
@@ -28,7 +30,7 @@ int Node::getPriority() const {
     return priority;
 }
 
-bool Node::isDiamond() const {
+bool Node::isEven() const {
     if(owner == 0) {
         return true;
     } else {
@@ -36,7 +38,7 @@ bool Node::isDiamond() const {
     }
 }
 
-bool Node::isSquare() const {
+bool Node::isOdd() const {
     if(owner == 1) {
         return true;
     } else {
@@ -64,36 +66,4 @@ const std::string &Node::getNodeName() const {
 
 void Node::setNodeName(const std::string &nodeName) {
     Node::nodeName = nodeName;
-}
-
-bool Node::hasEvenPriority() const{
-    return (priority % 2 == 0);
-}
-
-bool Node::hasOddPriority() const {
-    return !(hasEvenPriority());
-}
-
-void Node::addPredecessor(std::shared_ptr<Node> predecessor) {
-    predecessors.insert(std::move(predecessor));
-}
-
-bool Node::hasSelfLoop() const {
-    return selfLoop;
-}
-
-void Node::setSelfLoop(bool selfLoop) {
-    Node::selfLoop = selfLoop;
-}
-
-const std::unordered_set<std::shared_ptr<Node>> & Node::getSuccessors() const {
-    return successors;
-}
-
-const std::unordered_set<std::shared_ptr<Node>> &Node::getPredecessors() const {
-    return predecessors;
-}
-
-bool Node::hasOnlySingleSuccessor() {
-    return successors.size() == 1;
 }

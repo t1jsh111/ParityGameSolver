@@ -9,7 +9,6 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
-#include <unordered_set>
 
 class Node {
 public:
@@ -17,29 +16,16 @@ public:
 
     Node(int id, int priority, bool owner);
 
-    void setSuccessors(std::unordered_set<std::shared_ptr<Node>> successors);
-    void addPredecessor(std::shared_ptr<Node> predecessor);
+    void setSuccessors(std::vector<std::shared_ptr<Node>> successors);
 
     int getId() const;
     int getPriority() const;
 
-    bool isDiamond() const;
-    bool isSquare() const;
+    bool isEven() const;
+    bool isOdd() const;
     bool getOwner() const;
 
-    bool hasEvenPriority() const;
-    bool hasOddPriority() const;
-
-    bool hasSelfLoop() const;
-    void setSelfLoop(bool selfLoop);
-
-    bool hasOnlySingleSuccessor();
-
-
-
-
-    const std::unordered_set<std::shared_ptr<Node>> & getSuccessors() const;
-    const std::unordered_set<std::shared_ptr<Node>> & getPredecessors() const;
+    std::vector<std::shared_ptr<Node>> getSuccessors() const;
 
     void printSuccessors() const;
 
@@ -48,17 +34,13 @@ private:
     int priority;
     bool owner;
     std::string nodeName;
-    bool selfLoop;
-
-
 public:
     const std::string &getNodeName() const;
 
     void setNodeName(const std::string &nodeName);
 
 private:
-    std::unordered_set<std::shared_ptr<Node>> successors;
-    std::unordered_set<std::shared_ptr<Node>> predecessors;
+    std::vector<std::shared_ptr<Node>> successors;
 
 };
 

@@ -4,154 +4,35 @@
 
 #include "ProgressMeasuresAlgo.h"
 #include "Ordering.h"
-#include "WorkingListOrderer.h"
 
 #include "Node.h"
 
 
 #include <limits>
 #include <iostream>
-#include <chrono>
 #include <algorithm>
-#include "ImprovedWorkingListOrderer.h"
-#include "AlternativeWorkingListOrderer.h"
 
 
 void ProgressMeasuresAlgo::solveParityGame(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
 
 
     int d = parityGame.getDValue();
-    auto workingList = parityGame.getNodes(); // Input order
+    auto order = parityGame.getNodes(); // Input order
 
-    //std::cout << "Input order: ";
-    //printVectorElements(order);
-//    WorkingListOrderer orderer;
-//    auto workingList = orderer.getInitialWorkingList(parityGame.getNodes());
-
-
-//    order = Ordering::randomOrder(order); // Random order
-    auto start = std::chrono::high_resolution_clock::now();
+    order = Ordering::randomOrder(order); // Random order
 
     bool madeUpdate = true;
     while(madeUpdate) {
         madeUpdate = false;
-        for(const auto& node : workingList) {
+        for(const auto& node : order) {
             bool lifted = lift(*node, rhoMapping, parityGame);
             if(lifted) {
                 madeUpdate = true;
             }
         }
     }
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
-}
-
-void ProgressMeasuresAlgo::solveParityGameWorkList(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
-
-
-    int d = parityGame.getDValue();
-
-
-    //std::cout << "Input order: ";
-    //printVectorElements(order);
-    WorkingListOrderer orderer;
-    auto workingList = orderer.getInitialWorkingList(parityGame.getNodes());
-
-
-//    order = Ordering::randomOrder(order); // Random order
-    auto start = std::chrono::high_resolution_clock::now();
-    while(!workingList.empty()) {
-        const auto node = workingList.front();
-        workingList.pop_front();
-        // On top no lifting needs to be done
-        if(rhoMapping.at(node->getId()).isTop()) {continue;}
-
-        bool lifted = lift(*node, rhoMapping, parityGame);
-
-        if(lifted) {
-                orderer.appendPredecessorsOfNodeToWorkingList(*node, workingList, rhoMapping);
-        }
-        //continue lifting until stability is reached..
-        while(lifted) {
-            lifted = lift(*node, rhoMapping, parityGame);
-        }
-
-    }
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
 
 }
-
-void ProgressMeasuresAlgo::solveParityGameImprovedWorkList(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
-
-
-
-    ImprovedWorkingListOrderer workingList;
-    for(const auto& node : parityGame.getNodes()) {
-        workingList.addNodeToWorkList(node);
-    }
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-    while(!workingList.isEmpty()) {
-        const auto node = workingList.popFront();
-        // On top no lifting needs to be done
-        if(rhoMapping.at(node->getId()).isTop()) {continue;}
-
-        bool lifted = lift(*node, rhoMapping, parityGame);
-
-        if(lifted) {
-            for(const auto& predecessor : node->getPredecessors()) {
-                workingList.addNodeToWorkList(predecessor);
-            }
-        }
-        //continue lifting until stability is reached..
-        while(lifted) {
-            lifted = lift(*node, rhoMapping, parityGame);
-        }
-
-    }
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
-
-}
-
-void ProgressMeasuresAlgo::solveParityGameAlternativeWorkList(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
-
-    AlternativeWorkingListOrderer workingList;
-    for(const auto& node : parityGame.getNodes()) {
-        workingList.addNodeToWorkList(node, rhoMapping);
-    }
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-    while(!workingList.isEmpty()) {
-        const auto node = workingList.popFront();
-        // On top no lifting needs to be done
-        if(rhoMapping.at(node->getId()).isTop()) {continue;}
-
-        bool lifted = lift(*node, rhoMapping, parityGame);
-
-        if(lifted) {
-            for(const auto& predecessor : node->getPredecessors()) {
-                workingList.addNodeToWorkList(predecessor, rhoMapping);
-            }
-        }
-        //continue lifting until stability is reached..
-        while(lifted) {
-            lifted = lift(*node, rhoMapping, parityGame);
-        }
-
-    }
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
-
-}
-
 
 ProgressMeasure
 ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMapping, const Node &v, const Node &w, const ParityGame &parityGame) {
@@ -161,7 +42,7 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMa
     auto rhoForW = rhoMapping.at(w.getId());
 
     // Priority of v is even
-    if(v.hasEvenPriority()) {
+    if(v.getPriority() % 2 == 0) {
         // only top >= top
         if(rhoForW.isTop()) {
             return rhoForW;
@@ -180,19 +61,12 @@ ProgressMeasuresAlgo::Prog(const std::unordered_map<int, ProgressMeasure> &rhoMa
 }
 
 bool ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressMeasure>& rhoMapping, const ParityGame &parityGame) {
-
-    // Top won't be lifted further so we can immediately return that no update has been done.
-    if(rhoMapping.at(v.getId()).isTop()) {return false;}
-
-    auto& successors = v.getSuccessors();
-
+    auto successors = v.getSuccessors();
     std::vector<ProgressMeasure> progMeasures;
-    progMeasures.reserve(successors.size());
-    for (const auto& w : successors) {
+    for (auto w : successors) {
         progMeasures.push_back(Prog(rhoMapping, v, *w, parityGame));
     }
-
-    if(v.isDiamond()) {
+    if(v.isEven()) {
         ProgressMeasure minElement = *std::min_element(progMeasures.begin(), progMeasures.end());
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), minElement);
         if(rhoMapping[v.getId()] == updatedProgressMeasure) {
@@ -203,7 +77,7 @@ bool ProgressMeasuresAlgo::lift(const Node &v, std::unordered_map<int, ProgressM
         }
 
 
-    } else { // v is box
+    } else { // v is odd
         ProgressMeasure maxElement = *std::max_element(progMeasures.begin(), progMeasures.end());
 
         auto updatedProgressMeasure = std::max(rhoMapping.at(v.getId()), maxElement);

@@ -42,7 +42,7 @@ std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::s
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (const auto& n : nodes) {
-        if (n->isDiamond()) {
+        if (n->isEven()) {
             e.push_back(n);
         } else {
             o.push_back(n);
@@ -122,20 +122,20 @@ Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool 
     if (highLow) {
         for (int i = parityGame.getDValue() - 1; i > 0; i--) {
             for (auto n : parityGame.getNodesWithPriority(i)) {
-                if (n->getOwner()) {
-                    o.push_back(n);
-                } else {
+                if (n->isEven()) {
                     e.push_back(n);
+                } else {
+                    o.push_back(n);
                 }
             }
         }
     } else {
         for (int i = 1; i < parityGame.getDValue(); i++) {
             for (auto n: parityGame.getNodesWithPriority(i)) {
-                if (n->getOwner()) {
-                    o.push_back(n);
-                } else {
+                if (n->isEven()) {
                     e.push_back(n);
+                } else {
+                    o.push_back(n);
                 }
             }
         }

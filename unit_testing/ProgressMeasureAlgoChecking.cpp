@@ -58,7 +58,7 @@ TEST_F(ProgressMeasureAlgoTesting, progTesting1) {
     rhoMapping[1] = measure;
 
     auto result = ProgressMeasuresAlgo::Prog(rhoMapping, v,w, *parityGame);
-    std::vector<int> expectation = {0,0,0,0};
+    std::vector<int> expectation = {0,2,0,0};
     EXPECT_EQ(result.getProgressMeasureVec(),expectation);
     EXPECT_EQ(result.isTop(),false);
 

@@ -68,28 +68,28 @@ TEST_F(ParityGameTesting, priorityTest) {
 
 TEST_F(ParityGameTesting, ownerTest) {
     auto node = parityGame->getNodeById(0);
-    EXPECT_EQ(node.isSquare(), true);
-    EXPECT_EQ(node.isDiamond(), false);
+    EXPECT_EQ(node.isOdd(), true);
+    EXPECT_EQ(node.isEven(), false);
 
     node = parityGame->getNodeById(1);
-    EXPECT_EQ(node.isSquare(), false);
-    EXPECT_EQ(node.isDiamond(), true);
+    EXPECT_EQ(node.isOdd(), false);
+    EXPECT_EQ(node.isEven(), true);
 
     node = parityGame->getNodeById(2);
-    EXPECT_EQ(node.isSquare(), false);
-    EXPECT_EQ(node.isDiamond(), true);
+    EXPECT_EQ(node.isOdd(), false);
+    EXPECT_EQ(node.isEven(), true);
 
     node = parityGame->getNodeById(3);
-    EXPECT_EQ(node.isSquare(), false);
-    EXPECT_EQ(node.isDiamond(), true);
+    EXPECT_EQ(node.isOdd(), false);
+    EXPECT_EQ(node.isEven(), true);
 
     node = parityGame->getNodeById(5);
-    EXPECT_EQ(node.isSquare(), true);
-    EXPECT_EQ(node.isDiamond(), false);
+    EXPECT_EQ(node.isOdd(), true);
+    EXPECT_EQ(node.isEven(), false);
 
     node = parityGame->getNodeById(6);
-    EXPECT_EQ(node.isSquare(), false);
-    EXPECT_EQ(node.isDiamond(), true);
+    EXPECT_EQ(node.isOdd(), false);
+    EXPECT_EQ(node.isEven(), true);
 }
 
 TEST_F(ParityGameTesting, dValueTest) {
