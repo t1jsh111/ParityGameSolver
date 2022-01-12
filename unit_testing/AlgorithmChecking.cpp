@@ -44,7 +44,7 @@ public:
 ParityGame* AlgorithmTesting::parityGame = nullptr;
 
 
-TEST_F(AlgorithmTesting, improvedIsEquivalent) {
+TEST_F(AlgorithmTesting, WorkListIsEquivalent) {
 
     std::unordered_map<int, ProgressMeasure> rhoMapping1;
     std::unordered_map<int, ProgressMeasure> rhoMapping3;
@@ -56,14 +56,33 @@ TEST_F(AlgorithmTesting, improvedIsEquivalent) {
         rhoMapping3[node->getId()] = zeroProgressMeasure;
     }
 
-    ProgressMeasuresAlgo::solveParityGame(*parityGame, rhoMapping1);
-    ProgressMeasuresAlgo::solveParityGameImprovedWorkList(*parityGame, rhoMapping3);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameWorkList(*parityGame, rhoMapping3);
 
     for(const auto& node : parityGame->getNodes()) {
         EXPECT_EQ(rhoMapping1[node->getId()], rhoMapping3[node->getId()]);
     }
 
+}
 
 
+TEST_F(AlgorithmTesting, ImprovedWorkListIsEquivalent) {
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    std::unordered_map<int, ProgressMeasure> rhoMapping3;
+    for(const auto& node : parityGame->getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
+
+        rhoMapping1[node->getId()] = zeroProgressMeasure;
+        rhoMapping3[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameImprovedWorkList(*parityGame, rhoMapping3);
+
+    for(const auto& node : parityGame->getNodes()) {
+        EXPECT_EQ(rhoMapping1[node->getId()], rhoMapping3[node->getId()]);
+    }
 
 }

@@ -33,7 +33,7 @@ public:
     bool hasSelfLoop() const;
     void setSelfLoop(bool selfLoop);
 
-    bool hasOnlySingleSuccessor();
+    bool hasOnlySingleSuccessor() const;
 
 
 

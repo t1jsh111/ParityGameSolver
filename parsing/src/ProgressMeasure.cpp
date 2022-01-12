@@ -33,6 +33,11 @@ ProgressMeasure ProgressMeasure::getEvenProg(int priority) const {
     }
 }
 
+ProgressMeasure ProgressMeasure::getTop() const{
+    ProgressMeasure top(correspondingParityGame, true);
+    return top;
+}
+
 ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
     if(priority % 2 != 1) {
         throw std::runtime_error("priority provided is not odd");
@@ -63,8 +68,7 @@ ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
 
                 // We were not able to increase
                 if(i == 1) {
-                    ProgressMeasure top(correspondingParityGame, true);
-                    return top;
+                    return getTop();
                 }
 
                 m[i] = 0;

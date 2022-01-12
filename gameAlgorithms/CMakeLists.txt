@@ -1,14 +1,12 @@
 set(SOURCE_FILES
         src/ProgressMeasuresAlgo.cpp
-        src/Ordering.cpp
-        src/OtherWorkingListOrderer.cpp
+        src/FixedOrdering.cpp
         src/ImprovedWorkingListOrderer.cpp
         src/WorkingListOrderer.cpp)
 
 set(HEADER_FILES
-        inc/Ordering.h
+        inc/FixedOrdering.h
         inc/ProgressMeasuresAlgo.h
-        inc/OtherWorkingListOrderer.h
         inc/ImprovedWorkingListOrderer.h
         inc/WorkingListOrderer.h
         inc/Orderer.h

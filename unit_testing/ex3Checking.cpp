@@ -60,7 +60,7 @@ TEST_F(Ex3Testing, printingFig1) {
         rhoMapping1[node->getId()] = zeroProgressMeasure;
     }
 
-    ProgressMeasuresAlgo::solveParityGame(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
     for(const auto& node : parityGame->getNodes()) {
         std::cout << "node: " << node->getId() << " evals to ";
@@ -85,7 +85,7 @@ TEST_F(Ex3Testing, printingFig2) {
         rhoMapping1[node->getId()] = zeroProgressMeasure;
     }
 
-    ProgressMeasuresAlgo::solveParityGame(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
     for(const auto& node : parityGame->getNodes()) {
         std::cout << "node: " << node->getId() << " evals to ";
@@ -108,7 +108,7 @@ TEST_F(Ex3Testing, printingFig3) {
         rhoMapping1[node->getId()] = zeroProgressMeasure;
     }
 
-    ProgressMeasuresAlgo::solveParityGame(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
     for(const auto& node : parityGame->getNodes()) {
         std::cout << "node: " << node->getId() << " evals to ";
@@ -131,7 +131,7 @@ TEST_F(Ex3Testing, printingFig4) {
         rhoMapping1[node->getId()] = zeroProgressMeasure;
     }
 
-    ProgressMeasuresAlgo::solveParityGame(*parityGame, rhoMapping1);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
     for(const auto& node : parityGame->getNodes()) {
         std::cout << "node: " << node->getId() << " evals to ";

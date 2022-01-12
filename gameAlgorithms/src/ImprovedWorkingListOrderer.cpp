@@ -52,12 +52,21 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
             }
         } else { // node is diamond
             if(node->hasOnlySingleSuccessor()) {
-
-                if(node->hasSelfLoop() && node->hasOddPriority()) {
-                    level1.push(node);
+                if(node->hasOddPriority()) {
+                    if(node->hasSelfLoop()) {
+                        level1.push(node);
+                    } else {
+                        level3.push(node);
+                    }
                 } else {
                     level6.push(node);
                 }
+
+//                if(node->hasSelfLoop() && node->hasOddPriority()) {
+//                    level1.push(node);
+//                } else {
+//                    level6.push(node);
+//                }
 
             } else {
                 if(node->hasEvenPriority()) {

@@ -2,13 +2,14 @@
 // Created by s164009 on 3-1-2022.
 //
 
-#ifndef PARITYGAMESOLVER_ORDERING_H
-#define PARITYGAMESOLVER_ORDERING_H
+#ifndef PARITYGAMESOLVER_FIXEDORDERING_H
+#define PARITYGAMESOLVER_FIXEDORDERING_H
 
 #include "ParityGame.h"
 
-class Ordering {
+class FixedOrdering {
 public:
+    static std::vector<std::shared_ptr<Node>> inputOrder(const std::vector<std::shared_ptr<Node>> nodes);
     static std::vector<std::shared_ptr<Node>> randomOrder(const std::vector<std::shared_ptr<Node>> nodes);
     static std::vector<std::shared_ptr<Node>> evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even);
     static std::vector<std::shared_ptr<Node>> ownerOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even);
@@ -17,4 +18,4 @@ public:
     static std::vector<std::shared_ptr<Node>> ownerPriorityOrder(ParityGame parityGame, const bool even, const bool highLow);
 };
 
-#endif //PARITYGAMESOLVER_ORDERING_H
+#endif //PARITYGAMESOLVER_FIXEDORDERING_H

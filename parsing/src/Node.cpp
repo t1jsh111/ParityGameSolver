@@ -94,6 +94,6 @@ const std::unordered_set<std::shared_ptr<Node>> &Node::getPredecessors() const {
     return predecessors;
 }
 
-bool Node::hasOnlySingleSuccessor() {
+bool Node::hasOnlySingleSuccessor() const {
     return successors.size() == 1;
 }

@@ -2,14 +2,14 @@
 // Created by s164009 on 3-1-2022.
 //
 
-#include "Ordering.h"
+#include "FixedOrdering.h"
 #include "Node.h"
 
 #include <random>
 #include <algorithm>
 #include <iostream>
 
-std::vector<std::shared_ptr<Node>> Ordering::randomOrder(const std::vector<std::shared_ptr<Node>> nodes) {
+std::vector<std::shared_ptr<Node>> FixedOrdering::randomOrder(const std::vector<std::shared_ptr<Node>> nodes) {
     std::vector<std::shared_ptr<Node>> order = nodes;
     std::random_device rd;
     std::default_random_engine rng(rd());
@@ -17,7 +17,7 @@ std::vector<std::shared_ptr<Node>> Ordering::randomOrder(const std::vector<std::
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+std::vector<std::shared_ptr<Node>> FixedOrdering::evenOddOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (const auto& n : nodes) {
@@ -38,7 +38,7 @@ std::vector<std::shared_ptr<Node>> Ordering::evenOddOrder(const std::vector<std:
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
+std::vector<std::shared_ptr<Node>> FixedOrdering::ownerOrder(const std::vector<std::shared_ptr<Node>> nodes, const bool even) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     for (const auto& n : nodes) {
@@ -60,8 +60,8 @@ std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::s
 }
 
 // TODO: make work when not all priorities appear
-std::vector<std::shared_ptr<Node>> Ordering::priorityOrder(ParityGame parityGame,
-                                                                  const bool highLow) {
+std::vector<std::shared_ptr<Node>> FixedOrdering::priorityOrder(ParityGame parityGame,
+                                                                const bool highLow) {
     std::vector<std::shared_ptr<Node>> order;
     if (highLow) {
         for (int i = parityGame.getDValue() - 1; i > 0; i--) {
@@ -80,7 +80,7 @@ std::vector<std::shared_ptr<Node>> Ordering::priorityOrder(ParityGame parityGame
 }
 
 std::vector<std::shared_ptr<Node>>
-Ordering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
+FixedOrdering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
@@ -116,13 +116,13 @@ Ordering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const boo
 }
 
 std::vector<std::shared_ptr<Node>>
-Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
+FixedOrdering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool highLow) {
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
         for (int i = parityGame.getDValue() - 1; i > 0; i--) {
             for (auto n : parityGame.getNodesWithPriority(i)) {
-                if (n->isEven()) {
+                if (n->isDiamond()) {
                     e.push_back(n);
                 } else {
                     o.push_back(n);
@@ -132,7 +132,7 @@ Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool 
     } else {
         for (int i = 1; i < parityGame.getDValue(); i++) {
             for (auto n: parityGame.getNodesWithPriority(i)) {
-                if (n->isEven()) {
+                if (n->isDiamond()) {
                     e.push_back(n);
                 } else {
                     o.push_back(n);
@@ -149,5 +149,9 @@ Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool 
         order.insert(order.end(), e.begin(), e.end());
     }
     return order;
+}
+
+std::vector<std::shared_ptr<Node>> FixedOrdering::inputOrder(const std::vector<std::shared_ptr<Node>> nodes) {
+    return nodes;
 }
 
