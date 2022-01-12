@@ -17,6 +17,7 @@ ProgressMeasure ProgressMeasure::getEvenProg(int priority) const {
     if(priority % 2 != 0) {
         throw std::runtime_error("priority provided is not even");
     }
+    // TODO: handle situation where we go over the maximum
 
     if(isTop()) {
         return *this;
@@ -30,6 +31,11 @@ ProgressMeasure ProgressMeasure::getEvenProg(int priority) const {
         progress.setProgressMeasureVec(m);
         return progress;
     }
+}
+
+ProgressMeasure ProgressMeasure::getTop() const{
+    ProgressMeasure top(correspondingParityGame, true);
+    return top;
 }
 
 ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
@@ -62,8 +68,7 @@ ProgressMeasure ProgressMeasure::getOddProg(int priority) const {
 
                 // We were not able to increase
                 if(i == 1) {
-                    ProgressMeasure top(correspondingParityGame, true);
-                    return top;
+                    return getTop();
                 }
 
                 m[i] = 0;
