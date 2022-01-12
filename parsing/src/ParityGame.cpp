@@ -8,6 +8,7 @@
 #include "Node.h"
 #include <iostream>
 #include <stdexcept>
+#include <math.h>
 
 ParityGame::ParityGame(int highestIdentifier) : highestIdentifier(highestIdentifier), highestPriority(0) {
 
@@ -81,5 +82,22 @@ ProgressMeasure ParityGame::getProgressMeasureDomainMaximum() {
     }
     domainMaximum.setProgressMeasureVec(domainMaximumVec);
     return domainMaximum;
+}
+
+ParityGame ParityGame::createTree(int d) { // UNFINISHED
+    ParityGame parityGame = ParityGame(d);
+    int p = 0;
+    int i = 0;
+    int j = 0;
+    parityGame.addNode(std::make_shared<Node>(Node(i, d - p, false)));
+    while (p < d) {
+        std::shared_ptr<Node> node = parityGame.getNode(i);
+        if (d - p == 1) {
+            node->setSelfLoop(true);
+        }
+        std::shared_ptr<Node> node1 = std::make_shared<Node>(Node(i + pow(2, p), d - (p + 1), false));
+        std::shared_ptr<Node> node2 = std::make_shared<Node>(Node(i + pow(2, p) + 1, d - (p + 1), false));
+
+    }
 }
 

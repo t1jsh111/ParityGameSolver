@@ -10,8 +10,9 @@
 
 
 int main() {
-    //std::string filePath = "resources/ccp_games/german_linear_2.infinite_run_no_access.gm";
-    std::string filePath = "resources/manual/slide12_example.gm";
+    //std::string filePath = "resources/dining_games/dining_11.plato_infinitely_often_can_eat.gm";
+    //std::string filePath = "resources/ccp_games/german_linear_5.invariantly_eventually_fair_shared_access.gm";
+    std::string filePath = "resources/manual/Lots_of_single_selfloops.gm";
 
     ParityGame parityGame = Parser::parseParityGame(filePath);
     auto vec = parityGame.getNodes();
@@ -28,9 +29,62 @@ int main() {
         rhoMapping[node->getId()] = zeroProgressMeasure;
     }
 
+
     ProgressMeasuresAlgo::solveParityGame(parityGame, rhoMapping);
 
+    std::cout << "----rho mapping1:----" << std::endl;
     for(const auto& el  : rhoMapping) {
+        std::cout << "node " << el.first << " is: ";
+        el.second.print();
+        std::cout << std::endl;
+    }
+
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping2;
+    for(const auto& node : parityGame.getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
+        rhoMapping2[node->getId()] = zeroProgressMeasure;
+    }
+
+
+
+    ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMapping2);
+
+    std::cout << "----rho mapping2:----" << std::endl;
+    for(const auto& el  : rhoMapping2) {
+        std::cout << "node " << el.first << " is: ";
+        el.second.print();
+        std::cout << std::endl;
+    }
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping3;
+    for(const auto& node : parityGame.getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
+        rhoMapping3[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMapping3);
+
+    std::cout << "----rho mapping3:----" << std::endl;
+    for(const auto& el  : rhoMapping3) {
+        std::cout << "node " << el.first << " is: ";
+        el.second.print();
+        std::cout << std::endl;
+    }
+
+    std::unordered_map<int, ProgressMeasure> rhoMapping4;
+    for(const auto& node : parityGame.getNodes()) {
+        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
+        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
+        rhoMapping4[node->getId()] = zeroProgressMeasure;
+    }
+
+    ProgressMeasuresAlgo::solveParityGameAlternativeWorkList(parityGame, rhoMapping4);
+
+    std::cout << "----rho mapping4:----" << std::endl;
+    for(const auto& el  : rhoMapping4) {
         std::cout << "node " << el.first << " is: ";
         el.second.print();
         std::cout << std::endl;

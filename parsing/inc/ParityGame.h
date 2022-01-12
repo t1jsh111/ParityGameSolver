@@ -34,7 +34,7 @@ public:
 
     ProgressMeasure getProgressMeasureDomainMaximum();
 
-
+    ParityGame createTree(int d);
 
 private:
     int highestIdentifier;
