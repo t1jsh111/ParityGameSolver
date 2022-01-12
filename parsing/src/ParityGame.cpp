@@ -59,7 +59,10 @@ int ParityGame::getNumberOfVerticesWithPriority(int priority) const {
     }
 }
 
-std::vector<std::shared_ptr<Node>> &ParityGame::getNodesWithPriority(int priority) {
+std::vector<std::shared_ptr<Node>> &ParityGame::getNodesWithPriority(int priority){
+    if (priorityToNodesMap.find(priority) == priorityToNodesMap.end()) {
+        priorityToNodesMap[priority] = std::vector<std::shared_ptr<Node>>();
+    }
     return priorityToNodesMap.at(priority);
 }
 

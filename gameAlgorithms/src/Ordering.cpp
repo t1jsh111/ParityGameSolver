@@ -7,6 +7,7 @@
 
 #include <random>
 #include <algorithm>
+#include <iostream>
 
 std::vector<std::shared_ptr<Node>> Ordering::randomOrder(const std::vector<std::shared_ptr<Node>> nodes) {
     std::vector<std::shared_ptr<Node>> order = nodes;
@@ -58,17 +59,18 @@ std::vector<std::shared_ptr<Node>> Ordering::ownerOrder(const std::vector<std::s
     return order;
 }
 
+// TODO: make work when not all priorities appear
 std::vector<std::shared_ptr<Node>> Ordering::priorityOrder(ParityGame parityGame,
                                                                   const bool highLow) {
     std::vector<std::shared_ptr<Node>> order;
     if (highLow) {
-        for (int i = parityGame.getDValue() - 1; i >= 0; i--) {
+        for (int i = parityGame.getDValue() - 1; i > 0; i--) {
             for (auto n : parityGame.getNodesWithPriority(i)) {
                 order.push_back(n);
             }
         }
     } else {
-        for (int i = 0; i < parityGame.getDValue(); i++) {
+        for (int i = 1; i < parityGame.getDValue(); i++) {
             for (auto n: parityGame.getNodesWithPriority(i)) {
                 order.push_back(n);
             }
@@ -82,7 +84,7 @@ Ordering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const boo
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
-        for (int i = parityGame.getDValue() - 1; i >= 0; i--) {
+        for (int i = parityGame.getDValue() - 1; i > 0; i--) {
             for (auto n : parityGame.getNodesWithPriority(i)) {
                 if (n->getPriority() % 2 == 0) {
                     e.push_back(n);
@@ -92,7 +94,7 @@ Ordering::evenOddPriorityOrder(ParityGame parityGame, const bool even, const boo
             }
         }
     } else {
-        for (int i = 0; i < parityGame.getDValue(); i++) {
+        for (int i = 1; i < parityGame.getDValue(); i++) {
             for (auto n: parityGame.getNodesWithPriority(i)) {
                 if (n->getPriority() % 2 == 0) {
                     e.push_back(n);
@@ -118,7 +120,7 @@ Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool 
     std::vector<std::shared_ptr<Node>> e;
     std::vector<std::shared_ptr<Node>> o;
     if (highLow) {
-        for (int i = parityGame.getDValue() - 1; i >= 0; i--) {
+        for (int i = parityGame.getDValue() - 1; i > 0; i--) {
             for (auto n : parityGame.getNodesWithPriority(i)) {
                 if (n->isEven()) {
                     e.push_back(n);
@@ -128,7 +130,7 @@ Ordering::ownerPriorityOrder(ParityGame parityGame, const bool even, const bool 
             }
         }
     } else {
-        for (int i = 0; i < parityGame.getDValue(); i++) {
+        for (int i = 1; i < parityGame.getDValue(); i++) {
             for (auto n: parityGame.getNodesWithPriority(i)) {
                 if (n->isEven()) {
                     e.push_back(n);
