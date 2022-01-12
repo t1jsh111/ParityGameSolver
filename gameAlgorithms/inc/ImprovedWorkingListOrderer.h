@@ -23,18 +23,18 @@ private:
     std::unordered_map<std::shared_ptr<Node>, bool> needsUpdate;
 
     std::queue<std::shared_ptr<Node>> level1;
-    std::queue<std::shared_ptr<Node>> importantUpdate; // depends on updated node, and is square or depends on update and is diamond with single edge
-    std::queue<std::shared_ptr<Node>> squareOddWithoutSelfloop;
-    std::queue<std::shared_ptr<Node>> squareEven;
-    std::queue<std::shared_ptr<Node>> diamondMultiEdgeUpdate;
+    std::queue<std::shared_ptr<Node>> level2; // depends on updated node, and is square or depends on update and is diamond with single edge
+    std::queue<std::shared_ptr<Node>> level3;
+    std::queue<std::shared_ptr<Node>> level4;
+    std::queue<std::shared_ptr<Node>> level5;
 
-    std::queue<std::shared_ptr<Node>> remainingDiamondSingleEdge;
-    std::queue<std::shared_ptr<Node>> diamondMultiEdgeOdd;
-    std::queue<std::shared_ptr<Node>> diamondMultiEdgeEven;
+    std::queue<std::shared_ptr<Node>> level6;
+    std::queue<std::shared_ptr<Node>> level7;
+    std::queue<std::shared_ptr<Node>> level8;
 
-    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&level1, &squareOddWithoutSelfloop,
-                                                              &importantUpdate, &squareEven, &diamondMultiEdgeUpdate,
-                                                              &remainingDiamondSingleEdge, &diamondMultiEdgeOdd, &diamondMultiEdgeEven};
+    std::vector<std::queue<std::shared_ptr<Node>>*> queues = {&level1, &level3,
+                                                              &level2, &level4, &level5,
+                                                              &level6, &level7, &level8};
 
     int numberOfUpdateNodes = 0;
 

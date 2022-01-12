@@ -24,20 +24,20 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
 
 //    std::queue<std::shared_ptr<Node>> level1;
 //    std::queue<std::shared_ptr<Node>> diamondEvenSingleEdgeSelfLoop;
-//    std::queue<std::shared_ptr<Node>> importantUpdate; // depends on updated node, and is square or depends on update and is diamond with single edge
-//    std::queue<std::shared_ptr<Node>> squareOddWithoutSelfloop;
-//    std::queue<std::shared_ptr<Node>> squareEven;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeUpdate;
+//    std::queue<std::shared_ptr<Node>> level2; // depends on updated node, and is square or depends on update and is diamond with single edge
+//    std::queue<std::shared_ptr<Node>> level3;
+//    std::queue<std::shared_ptr<Node>> level4;
+//    std::queue<std::shared_ptr<Node>> level5;
 //
 //    std::queue<std::shared_ptr<Node>> diamondSingleEdge;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeEven;
-//    std::queue<std::shared_ptr<Node>> diamondMultiEdgeOdd;
+//    std::queue<std::shared_ptr<Node>> level8;
+//    std::queue<std::shared_ptr<Node>> level7;
 
     if(wasPredecessorOfUpdate) {
         if(node->isSquare() || (node->isDiamond() && node->hasOnlySingleSuccessor())) {
-            importantUpdate.push(node);
+            level2.push(node);
         } else { // node is diamond with multiple successors
-            diamondMultiEdgeUpdate.push(node);
+            level5.push(node);
         }
     } else {
         if(node->isSquare()) {
@@ -45,10 +45,10 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
                 if(node->hasSelfLoop()) {
                     level1.push(node);
                 } else {
-                    squareOddWithoutSelfloop.push(node);
+                    level3.push(node);
                 }
             } else {
-                squareEven.push(node);
+                level4.push(node);
             }
         } else { // node is diamond
             if(node->hasOnlySingleSuccessor()) {
@@ -56,14 +56,14 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
                 if(node->hasSelfLoop() && node->hasOddPriority()) {
                     level1.push(node);
                 } else {
-                    remainingDiamondSingleEdge.push(node);
+                    level6.push(node);
                 }
 
             } else {
                 if(node->hasEvenPriority()) {
-                    diamondMultiEdgeEven.push(node);
+                    level8.push(node);
                 } else {
-                    diamondMultiEdgeOdd.push(node);
+                    level7.push(node);
                 }
             }
 
