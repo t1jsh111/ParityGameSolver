@@ -29,17 +29,17 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
 //    std::queue<std::shared_ptr<Node>> level2; // depends on updated node, and is square or depends on update and is diamond with single edge
 //    std::queue<std::shared_ptr<Node>> level3;
 //    std::queue<std::shared_ptr<Node>> level4;
-//    std::queue<std::shared_ptr<Node>> level5;
+//    std::queue<std::shared_ptr<Node>> level6;
 //
 //    std::queue<std::shared_ptr<Node>> diamondSingleEdge;
-//    std::queue<std::shared_ptr<Node>> level8;
 //    std::queue<std::shared_ptr<Node>> level7;
+//    std::queue<std::shared_ptr<Node>> level5;
 
     if(wasPredecessorOfUpdate) {
         if(node->isSquare() || (node->isDiamond() && node->hasOnlySingleSuccessor())) {
             level2.push(node);
         } else { // node is diamond with multiple successors
-            level5.push(node);
+            level6.push(node);
         }
     } else {
         if(node->isSquare()) {
@@ -72,9 +72,9 @@ void ImprovedWorkingListOrderer::addNode(std::shared_ptr<Node> node, bool wasPre
 
             } else {
                 if(node->hasEvenPriority()) {
-                    level8.push(node);
-                } else {
                     level7.push(node);
+                } else {
+                    level5.push(node);
                 }
             }
 
