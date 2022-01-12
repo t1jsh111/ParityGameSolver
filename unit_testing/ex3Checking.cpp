@@ -53,6 +53,24 @@ TEST_F(Ex3Testing, printingFig1) {
     setParityGame("../resources/ex3/fig1.gm");
 
     std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    std::unordered_map<int, ProgressMeasure> expectedMapping;
+
+    ProgressMeasure prog0Expec(parityGame, false);
+    prog0Expec.setProgressMeasureVec({0,0,0,0,0});
+    expectedMapping[0] = prog0Expec;
+
+    ProgressMeasure prog1Expec(parityGame, false);
+    prog1Expec.setProgressMeasureVec({0,0,0,0,0});
+    expectedMapping[1] = prog0Expec;
+
+    ProgressMeasure prog2Expec(parityGame, true);
+    expectedMapping[2] = prog2Expec;
+
+    ProgressMeasure prog3Expec(parityGame, true);
+    expectedMapping[3] = prog3Expec;
+
+
+
     for(const auto& node : parityGame->getNodes()) {
         auto zeroProgressMeasure = ProgressMeasure(parityGame);
         zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
@@ -62,12 +80,15 @@ TEST_F(Ex3Testing, printingFig1) {
 
     ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
-    for(const auto& node : parityGame->getNodes()) {
-        std::cout << "node: " << node->getId() << " evals to ";
-        rhoMapping1[node->getId()].print();
-        std::cout << std::endl;
-    }
+//    for(const auto& node : parityGame->getNodes()) {
+//        std::cout << "node: " << node->getId() << " evals to ";
+//        rhoMapping1[node->getId()].print();
+//        std::cout << std::endl;
+//    }
 
+    for(const auto& node : parityGame->getNodes()) {
+        EXPECT_EQ(rhoMapping1[node->getId()], expectedMapping[node->getId()]);
+    }
 
 
 
@@ -78,6 +99,20 @@ TEST_F(Ex3Testing, printingFig2) {
     setParityGame("../resources/ex3/fig2.gm");
 
     std::unordered_map<int, ProgressMeasure> rhoMapping1;
+    std::unordered_map<int, ProgressMeasure> expectedMapping;
+
+    ProgressMeasure prog0Expec(parityGame, true);
+    expectedMapping[0] = prog0Expec;
+
+    ProgressMeasure prog1Expec(parityGame, true);
+    expectedMapping[1] = prog0Expec;
+
+    ProgressMeasure prog2Expec(parityGame, true);
+    expectedMapping[2] = prog2Expec;
+
+    ProgressMeasure prog3Expec(parityGame, true);
+    expectedMapping[3] = prog3Expec;
+
     for(const auto& node : parityGame->getNodes()) {
         auto zeroProgressMeasure = ProgressMeasure(parityGame);
         zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame->getDValue()));
@@ -87,10 +122,14 @@ TEST_F(Ex3Testing, printingFig2) {
 
     ProgressMeasuresAlgo::solveParityGameInputOrder(*parityGame, rhoMapping1);
 
+//    for(const auto& node : parityGame->getNodes()) {
+//        std::cout << "node: " << node->getId() << " evals to ";
+//        rhoMapping1[node->getId()].print();
+//        std::cout << std::endl;
+//    }
+
     for(const auto& node : parityGame->getNodes()) {
-        std::cout << "node: " << node->getId() << " evals to ";
-        rhoMapping1[node->getId()].print();
-        std::cout << std::endl;
+        EXPECT_EQ(rhoMapping1[node->getId()], expectedMapping[node->getId()]);
     }
 
 
