@@ -13,7 +13,7 @@
 class ProgressMeasuresAlgo {
 public:
     static void solveParityGameInputOrder(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
-    static void solveParityGameInputOrder(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
+    //static void solveParityGameRandomOrder(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
 
 
     static void solveParityGameWorkList(ParityGame& parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);

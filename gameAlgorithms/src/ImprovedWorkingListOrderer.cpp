@@ -4,6 +4,8 @@
 
 #include "ImprovedWorkingListOrderer.h"
 
+#include <stdexcept>
+
 bool ImprovedWorkingListOrderer::isEmpty() const {
     return numberOfUpdateNodes == 0;
 }

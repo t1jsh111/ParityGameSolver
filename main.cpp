@@ -30,7 +30,7 @@ int main() {
     }
 
 
-    ProgressMeasuresAlgo::solveParityGame(parityGame, rhoMapping);
+    ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMapping);
 
     std::cout << "----rho mapping1:----" << std::endl;
     for(const auto& el  : rhoMapping) {
