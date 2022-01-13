@@ -25,8 +25,8 @@ private:
     std::queue<std::shared_ptr<Node>> level1;
     std::queue<std::shared_ptr<Node>> level2; // depends on updated node, and is square or depends on update and is diamond with single edge
     std::queue<std::shared_ptr<Node>> level3;
-    std::queue<std::shared_ptr<Node>> level4;
     std::queue<std::shared_ptr<Node>> level5;
+    std::queue<std::shared_ptr<Node>> level4;
     std::queue<std::shared_ptr<Node>> level6;
     std::queue<std::shared_ptr<Node>> level7;
 

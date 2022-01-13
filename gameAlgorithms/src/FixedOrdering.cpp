@@ -9,6 +9,10 @@
 #include <algorithm>
 #include <iostream>
 
+std::vector<std::shared_ptr<Node>> FixedOrdering::inputOrder(const std::vector<std::shared_ptr<Node>> nodes) {
+    return nodes;
+}
+
 std::vector<std::shared_ptr<Node>> FixedOrdering::randomOrder(const std::vector<std::shared_ptr<Node>> nodes) {
     std::vector<std::shared_ptr<Node>> order = nodes;
     std::random_device rd;
@@ -150,7 +154,5 @@ FixedOrdering::ownerPriorityOrder(ParityGame parityGame, const bool even, const 
     return order;
 }
 
-std::vector<std::shared_ptr<Node>> FixedOrdering::inputOrder(const std::vector<std::shared_ptr<Node>> nodes) {
-    return nodes;
-}
+
 

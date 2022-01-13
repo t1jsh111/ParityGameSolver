@@ -74,7 +74,7 @@ void ProgressMeasuresAlgo::solveParityGameWorkList(ParityGame &parityGame, std::
     for(const auto& node : parityGame.getNodes()) {
         workingList.addNode(node);
     }
-    solveParityGameUsingWorkList(parityGame, rhoMapping, workingList);
+    solveParityGameUsingWorkList(parityGame, rhoMapping, workingList, lift);
 
 }
 
@@ -86,7 +86,7 @@ void ProgressMeasuresAlgo::solveParityGameImprovedWorkList(ParityGame &parityGam
     for(const auto& node : parityGame.getNodes()) {
         workingList.addNode(node);
     }
-    solveParityGameUsingWorkList(parityGame, rhoMapping, workingList);
+    solveParityGameUsingWorkList(parityGame, rhoMapping, workingList, improvedLift);
 
 }
 
@@ -178,7 +178,7 @@ void ProgressMeasuresAlgo::solveParityGameForOrder(ParityGame &parityGame, std::
 
 void ProgressMeasuresAlgo::solveParityGameUsingWorkList(ParityGame &parityGame,
                                                         std::unordered_map<int, ProgressMeasure> &rhoMapping,
-                                                        Orderer &workList) {
+                                                        Orderer &workList,  LiftFunction liftFunction) {
 
     auto start = std::chrono::high_resolution_clock::now();
     while(!workList.isEmpty()) {
@@ -188,7 +188,7 @@ void ProgressMeasuresAlgo::solveParityGameUsingWorkList(ParityGame &parityGame,
 
 
 
-        bool lifted = improvedLift(*node, rhoMapping, parityGame);
+        bool lifted = liftFunction(*node, rhoMapping, parityGame);
 
 
         if(lifted) {
@@ -208,6 +208,8 @@ void ProgressMeasuresAlgo::solveParityGameUsingWorkList(ParityGame &parityGame,
 
 }
 
+
+
 bool ProgressMeasuresAlgo::improvedLift(const Node &v, std::unordered_map<int, ProgressMeasure> &rhoMapping,
                                         const ParityGame &parityGame) {
     // Top won't be lifted further so we can immediately return that no update has been done.
@@ -225,6 +227,8 @@ bool ProgressMeasuresAlgo::improvedLift(const Node &v, std::unordered_map<int, P
     }
 
 }
+
+
 
 
 
