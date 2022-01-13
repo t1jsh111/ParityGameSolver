@@ -13,7 +13,7 @@ public:
     enum AlgorithmType {FixedInputOrder, FixedRandomOrder, Worklist, ImprovedWorklist, FixedEvenOddOrder,
             FixedDiamondSquareOrder, FixedPriorityOrder, FixedEvenOddPriorityOrder, FixedDiamondSquarePriorityOrder};
 
-    void printTablesTerminalOutput(std::string folderPath, bool printRhoMapping);
+    void printTablesTerminalOutput(std::string folderPath, bool printRhoMapping, int iterations);
     void printTablesFileOutput(std::string folderPath);
     void printTablesTerminalOutputSingleGame(std::string parityGamePath, AlgorithmType algoType,bool printRhoMapping, bool even, bool diamond, bool high);
 private:
