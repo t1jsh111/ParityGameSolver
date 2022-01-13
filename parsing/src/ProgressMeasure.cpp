@@ -149,4 +149,19 @@ void ProgressMeasure::print() const {
     }
 }
 
+std::string ProgressMeasure::getStringRepresentation() const {
+    if(top) {
+        return "TOP";
+    } else {
+        std::string returnStr;
+        returnStr.append("(");
+        for(int i = 0; i < progressMeasureVec.size(); i++) {
+            returnStr.append("" + std::to_string(progressMeasureVec[i]));
+            if(i != progressMeasureVec.size()-1) {returnStr.append(", ");}
+        }
+        returnStr.append(")");
+        return returnStr;
+    }
+}
+
 

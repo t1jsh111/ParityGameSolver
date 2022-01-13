@@ -5,6 +5,7 @@
 #ifndef PARITYGAMESOLVER_PROGRESSMEASURE_H
 #define PARITYGAMESOLVER_PROGRESSMEASURE_H
 
+#include <string>
 #include <vector>
 #include "ParityGame.h"
 
@@ -22,6 +23,7 @@ public:
     void setProgressMeasureVec(const std::vector<int> &progressMeasureVec);
 
     void print() const;
+    std::string getStringRepresentation() const;
 
     const std::vector<int> &getProgressMeasureVec() const;
 

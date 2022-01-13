@@ -24,6 +24,14 @@ void ProgressMeasuresAlgo::solveParityGameInputOrder(ParityGame &parityGame,
     solveParityGameForOrder(parityGame, rhoMapping, order);
 }
 
+void ProgressMeasuresAlgo::solveParityGameRandomOrder(ParityGame &parityGame,
+                                                      std::unordered_map<int, ProgressMeasure> &rhoMapping) {
+    auto nodes = parityGame.getNodes();
+    auto order = FixedOrdering::randomOrder(nodes);
+
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
+
 
 
 void ProgressMeasuresAlgo::solveParityGameWorkList(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
@@ -135,7 +143,7 @@ void ProgressMeasuresAlgo::solveParityGameForOrder(ParityGame &parityGame, std::
     }
     auto elapsed = std::chrono::high_resolution_clock::now() - start;
     long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
+//    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
 }
 
 
@@ -167,7 +175,7 @@ void ProgressMeasuresAlgo::solveParityGameUsingWorkList(ParityGame &parityGame,
     }
     auto elapsed = std::chrono::high_resolution_clock::now() - start;
     long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
+//    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
 
 }
 
@@ -188,4 +196,6 @@ bool ProgressMeasuresAlgo::improvedLift(const Node &v, std::unordered_map<int, P
     }
 
 }
+
+
 
