@@ -162,10 +162,6 @@ void ProgressMeasuresAlgo::printVectorElements(const std::vector<std::shared_ptr
 
 
 void ProgressMeasuresAlgo::solveParityGameForOrder(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping, std::vector<std::shared_ptr<Node>> order) {
-
-
-    auto start = std::chrono::high_resolution_clock::now();
-
     bool madeUpdate = true;
     while(madeUpdate) {
         madeUpdate = false;
@@ -176,9 +172,7 @@ void ProgressMeasuresAlgo::solveParityGameForOrder(ParityGame &parityGame, std::
             }
         }
     }
-    auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    long long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
-//    std::cout << "solveParityGame exec time: " << microseconds << std::endl;
+
 }
 
 

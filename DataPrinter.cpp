@@ -106,7 +106,7 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
         fillRhoMappingForParityGame(&parityGame, rhoMappingFixedRandomOrder);
 
          start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedRandomOrder);
+        ProgressMeasuresAlgo::solveParityGameRandomOrder(parityGame, rhoMappingFixedRandomOrder);
          end = std::chrono::high_resolution_clock::now();
 
 
@@ -281,7 +281,7 @@ void DataPrinter::printTablesFileOutput(std::string folderPath) {
         fillRhoMappingForParityGame(&parityGame, rhoMappingFixedRandomOrder);
 
         start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedRandomOrder);
+        ProgressMeasuresAlgo::solveParityGameRandomOrder(parityGame, rhoMappingFixedRandomOrder);
         end = std::chrono::high_resolution_clock::now();
 
 
