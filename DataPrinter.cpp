@@ -374,7 +374,7 @@ DataPrinter::fillRhoMappingForParityGame(ParityGame *parityGame, std::unordered_
     }
 }
 
-void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath, DataPrinter::AlgorithmType algoType, bool printRhoMapping) {
+void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath, DataPrinter::AlgorithmType algoType, bool printRhoMapping, bool even, bool diamond, bool high) {
     std::cout << std::endl;
 
 
@@ -426,7 +426,7 @@ void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath
         durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
 
-    } else {
+    } else if (algoType == ImprovedWorklist){
         algorithmType = "ImprovedWorkList";
         fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
@@ -436,6 +436,71 @@ void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath
 
         auto durationImprovedWorkList = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double dur = (double) durationImprovedWorkList.count() / 1000;
+        durStr = std::to_string(dur);
+        durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
+    } else if (algoType == FixedEvenOddOrder) {
+        algorithmType = "FixedEvenOddOrder";
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ProgressMeasuresAlgo::solveParityGameEvenOddOrder(parityGame, rhoMapping, even);
+        auto end = std::chrono::high_resolution_clock::now();
+
+
+        auto durationEvenOddOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double dur = (double) durationEvenOddOrder.count() / 1000;
+        durStr = std::to_string(dur);
+        durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
+    } else if (algoType == FixedDiamondSquareOrder) {
+        algorithmType = "FixedDiamondSquareOrder";
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ProgressMeasuresAlgo::solveParityGameOwnerOrder(parityGame, rhoMapping, diamond);
+        auto end = std::chrono::high_resolution_clock::now();
+
+
+        auto durationDiamondSquareOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double dur = (double) durationDiamondSquareOrder.count() / 1000;
+        durStr = std::to_string(dur);
+        durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
+    } else if (algoType == FixedPriorityOrder) {
+        algorithmType = "FixedPriorityOrder";
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ProgressMeasuresAlgo::solveParityGamePriorityOrder(parityGame, rhoMapping, high);
+        auto end = std::chrono::high_resolution_clock::now();
+
+
+        auto durationPriorityOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double dur = (double) durationPriorityOrder.count() / 1000;
+        durStr = std::to_string(dur);
+        durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
+    } else if (algoType == FixedEvenOddPriorityOrder) {
+        algorithmType = "FixedEvenOddPriorityOrder";
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ProgressMeasuresAlgo::solveParityGameEvenOddPriorityOrder(parityGame, rhoMapping, even, high);
+        auto end = std::chrono::high_resolution_clock::now();
+
+
+        auto durationEvenOddPriorityOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double dur = (double) durationEvenOddPriorityOrder.count() / 1000;
+        durStr = std::to_string(dur);
+        durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
+    } else {
+        algorithmType = "FixedDiamondSquarePriorityOrder";
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
+
+        auto start = std::chrono::high_resolution_clock::now();
+        ProgressMeasuresAlgo::solveParityGameOwnerPriorityOrder(parityGame, rhoMapping, diamond, high);
+        auto end = std::chrono::high_resolution_clock::now();
+
+
+        auto durationDiamondSquarePriorityOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        double dur = (double) durationDiamondSquarePriorityOrder.count() / 1000;
         durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
     }
