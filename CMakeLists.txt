@@ -17,5 +17,6 @@ target_link_libraries(ParityGameSolver PUBLIC GameAlgorithmsLibrary)
 target_include_directories(ParityGameSolver PUBLIC gameAlgorithms/inc)
 
 file(COPY ${ParityGameSolver_SOURCE_DIR}/resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${ParityGameSolver_SOURCE_DIR}/output DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(unit_testing)

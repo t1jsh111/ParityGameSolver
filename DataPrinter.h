@@ -6,6 +6,7 @@
 #define PARITYGAMESOLVER_DATAPRINTER_H
 
 #include "ParityGame.h"
+#include "TextTable.h"
 
 class DataPrinter {
 public:
@@ -13,6 +14,7 @@ public:
 
 
     void printTablesTerminalOutput(std::string folderPath);
+    void printTablesFileOutput(std::string folderPath);
     void printTablesTerminalOutputSingleGame(std::string parityGamePath, AlgorithmType algoType);
 private:
 
@@ -22,6 +24,7 @@ private:
     std::string ReplaceAll(std::string str, const std::string& from, const std::string& to);
 
     void printLinesTerminalOutput(std::vector<std::vector<std::string>> lines);
+    TextTable printLinesFileOutput(std::vector<std::vector<std::string>> lines);
 
 
     void fillRhoMappingForParityGame(ParityGame* parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping);
