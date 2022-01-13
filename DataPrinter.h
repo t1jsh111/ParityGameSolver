@@ -11,11 +11,10 @@
 class DataPrinter {
 public:
     enum AlgorithmType {FixedInputOrder, FixedRandomOrder, Worklist, ImprovedWorklist};
-
-
-    void printTablesTerminalOutput(std::string folderPath);
+    
+    void printTablesTerminalOutput(std::string folderPath, bool printRhoMapping);
     void printTablesFileOutput(std::string folderPath);
-    void printTablesTerminalOutputSingleGame(std::string parityGamePath, AlgorithmType algoType);
+    void printTablesTerminalOutputSingleGame(std::string parityGamePath, AlgorithmType algoType,bool printRhoMapping);
 private:
 
 
