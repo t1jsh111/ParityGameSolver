@@ -40,7 +40,7 @@ std::string DataPrinter::ReplaceAll(std::string str, const std::string &from, co
 
 
 
-void DataPrinter::printTablesTerminalOutput(std::string folderPath) {
+void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRhoMapping) {
 
     std::vector<std::string> parityGames;
 
@@ -150,18 +150,35 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath) {
         //-------END: Improved Worklist order------
 
         std::cout << "Parity game: " << fileName  << std::endl;
-        std::vector<std::vector<std::string>> lines;
-        lines.push_back({" ","Input order", "Random Order", "Worklist Order", "Improved Worklist Order"});
-        for(const auto& node : parityGame.getNodes()) {
-            std::vector<std::string> line;
-            line.push_back("Node: " + std::to_string(node->getId()) );
-            line.push_back(rhoMappingFixedInputOrder[node->getId()].getStringRepresentation());
-            line.push_back(rhoMappingFixedRandomOrder[node->getId()].getStringRepresentation());
-            line.push_back(rhoMappingWorkListOrder[node->getId()].getStringRepresentation());
-            line.push_back(rhoMappingImprovedWorkListOrder[node->getId()].getStringRepresentation());
-            lines.push_back(line);
+        if(printRhoMapping) {
+
+            std::vector<std::vector<std::string>> lines;
+            lines.push_back({" ","Input order", "Random Order", "Worklist Order", "Improved Worklist Order"});
+            for(const auto& node : parityGame.getNodes()) {
+                std::vector<std::string> line;
+                line.push_back("Node: " + std::to_string(node->getId()) );
+                line.push_back(rhoMappingFixedInputOrder[node->getId()].getStringRepresentation());
+                line.push_back(rhoMappingFixedRandomOrder[node->getId()].getStringRepresentation());
+                line.push_back(rhoMappingWorkListOrder[node->getId()].getStringRepresentation());
+                line.push_back(rhoMappingImprovedWorkListOrder[node->getId()].getStringRepresentation());
+                lines.push_back(line);
+            }
+            printLinesTerminalOutput(lines);
+        } else {
+            std::cout << "Winner of index 0:" << ( rhoMappingImprovedWorkListOrder[0].isTop() ? "Square" : "Diamond" ) << std::endl;
+            int numberOfVerticesWonByDiamond = 0;
+            int numberOfVerticesWonBySquare = 0;
+            for(const auto& el : rhoMappingImprovedWorkListOrder) {
+                if(el.second.isTop()) {
+                    numberOfVerticesWonBySquare++;
+                } else {
+                    numberOfVerticesWonByDiamond++;
+                }
+            }
+            std::cout << "Number of vertices won by square " << numberOfVerticesWonBySquare << std::endl;
+            std::cout << "Number of vertices won by diamond " << numberOfVerticesWonByDiamond << std::endl;
         }
-        printLinesTerminalOutput(lines);
+
 
 
     }
@@ -200,9 +217,9 @@ DataPrinter::fillRhoMappingForParityGame(ParityGame *parityGame, std::unordered_
     }
 }
 
-void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath, DataPrinter::AlgorithmType algoType) {
+void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath, DataPrinter::AlgorithmType algoType, bool printRhoMapping) {
     std::cout << std::endl;
-    std::cout << "%=====" << "====" << std::endl;
+
 
     std::unordered_map<int, ProgressMeasure> rhoMapping;
     ParityGame parityGame = Parser::parseParityGame(parityGamePath);
@@ -211,74 +228,91 @@ void DataPrinter::printTablesTerminalOutputSingleGame(std::string parityGamePath
     fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
     std::string algorithmType = "";
+    std::string durStr;
 
     if(algoType == FixedInputOrder) {
         algorithmType = "FixedInputOrder";
-        std::unordered_map<int, ProgressMeasure> rhoMappingFixedInputOrder;
-        fillRhoMappingForParityGame(&parityGame, rhoMappingFixedInputOrder);
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
         auto start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedInputOrder);
+        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMapping);
         auto end = std::chrono::high_resolution_clock::now();
 
 
         auto durationInputOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double dur = (double) durationInputOrder.count() / 1000;
-        std::string durStr = std::to_string(dur);
+        durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
     } else if(algoType == FixedRandomOrder) {
         algorithmType = "FixedRandomOrder";
-        std::unordered_map<int, ProgressMeasure> rhoMappingFixedRandomOrder;
-        fillRhoMappingForParityGame(&parityGame, rhoMappingFixedRandomOrder);
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
         auto start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedRandomOrder);
+        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMapping);
         auto end = std::chrono::high_resolution_clock::now();
 
 
         auto durationRandomOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double dur = (double) durationRandomOrder.count() / 1000;
-        std::string durStr = std::to_string(dur);
+        durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
     } else if(algoType == Worklist) {
         algorithmType = "Worklist";
-        std::unordered_map<int, ProgressMeasure> rhoMappingWorkListOrder;
-        fillRhoMappingForParityGame(&parityGame, rhoMappingWorkListOrder);
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
         auto start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMappingWorkListOrder);
+        ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMapping);
         auto end = std::chrono::high_resolution_clock::now();
 
         auto durationWorklist = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double dur = (double) durationWorklist.count() / 1000;
-        std::string durStr = std::to_string(dur);
+        durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
 
     } else {
         algorithmType = "ImprovedWorkList";
-        std::unordered_map<int, ProgressMeasure> rhoMappingImprovedWorkListOrder;
-        fillRhoMappingForParityGame(&parityGame, rhoMappingImprovedWorkListOrder);
+        fillRhoMappingForParityGame(&parityGame, rhoMapping);
 
         auto start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMappingImprovedWorkListOrder);
+        ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMapping);
         auto end = std::chrono::high_resolution_clock::now();
 
         auto durationImprovedWorkList = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         double dur = (double) durationImprovedWorkList.count() / 1000;
-        std::string durStr = std::to_string(dur);
+        durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
     }
 
+    std::cout << "%=====" << "====" << std::endl;
     std::cout << "Parity game: " << fileName  << std::endl;
-    std::vector<std::vector<std::string>> lines;
-    lines.push_back({" ",algorithmType});
-    for(const auto& node : parityGame.getNodes()) {
-        std::vector<std::string> line;
-        line.push_back("Node: " + std::to_string(node->getId()) );
-        line.push_back(rhoMapping[node->getId()].getStringRepresentation());
-        lines.push_back(line);
+    std::cout << "Execution time is " << durStr << " milisec " << std::endl;
+    if(printRhoMapping) {
+        std::vector<std::vector<std::string>> lines;
+        lines.push_back({" ",algorithmType});
+        for(const auto& node : parityGame.getNodes()) {
+            std::vector<std::string> line;
+            line.push_back("Node: " + std::to_string(node->getId()) );
+            line.push_back(rhoMapping[node->getId()].getStringRepresentation());
+            lines.push_back(line);
+        }
+        printLinesTerminalOutput(lines);
+    } else {
+        std::cout << "Winner of index 0:" << ( rhoMapping[0].isTop() ? "Square" : "Diamond" ) << std::endl;
+        int numberOfVerticesWonByDiamond = 0;
+        int numberOfVerticesWonBySquare = 0;
+        for(const auto& el : rhoMapping) {
+            if(el.second.isTop()) {
+                numberOfVerticesWonBySquare++;
+            } else {
+                numberOfVerticesWonByDiamond++;
+            }
+        }
+        std::cout << "Number of vertices won by square " << numberOfVerticesWonBySquare << std::endl;
+        std::cout << "Number of vertices won by diamond " << numberOfVerticesWonByDiamond << std::endl;
+        std::cout << "%=====" << "====" << std::endl;
     }
-    printLinesTerminalOutput(lines);
+
+
 
 }
 

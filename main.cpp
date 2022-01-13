@@ -28,9 +28,7 @@ void printMenu() {
     std::cout << "-----" << std::endl;
     std::cout << "Press 1 to compute all information of a folder containing paritygames and print in Console format" << std::endl;
     std::cout << "-----" << std::endl;
-    std::cout << "Press 3 to compute for a specific parity game using a specific algorithm" << std::endl;
-    std::cout << "-----" << std::endl;
-    std::cout << "Press 3 to compute for a specific parity game using a specific algorithm" << std::endl;
+    std::cout << "Press 2 to compute for a specific parity game using a specific algorithm" << std::endl;
     std::cout << "-----" << std::endl;
 }
 
@@ -61,13 +59,19 @@ int main() {
         printMenu();
 
 
-        std::string inputWord = getInput({"1", "2", "3"});
+        std::string inputWord = getInput({"1", "2"});
 
         if (inputWord == "1") {
             std::cout << "drag and drop folder to console / provide folder path and press enter" << std::endl;
             std::cin >> inputWord;
+            std::string filePath;
+            filePath = inputWord;
             try {
-                dataPrinter.printTablesTerminalOutput(inputWord);
+                std::cout << "Do you want to print the final rho mappings y/n?" << std::endl;
+                inputWord = getInput({"y", "n"});
+                bool wantRhoMappings = inputWord == "y";
+                dataPrinter.printTablesTerminalOutput(filePath, wantRhoMappings);
+
             } catch (const std::exception &e) {
                 std::cout << "it looks like the folder contains invalid paritygame" << std::endl;
                 std::cout << e.what() << std::endl;
@@ -78,134 +82,39 @@ int main() {
         } else if (inputWord == "2") {
             std::cout << "drag and drop file to console / provide file path and press enter" << std::endl;
             std::cin >> inputWord;
+            std::string filePath;
+            filePath = inputWord;
             try {
-                dataPrinter.printTablesTerminalOutputSingleGame(inputWord, DataPrinter::FixedInputOrder);
+                    std::cout << "press 1 for executing the algorithm using fixed input order: " << std::endl;
+                    std::cout << "press 2 for executing the algorithm using fixed random input order: " << std::endl;
+                    std::cout << "press 3 for executing the algorithm using worklist: " << std::endl;
+                    std::cout << "press 4 for executing the algorithm using improved worklist: " << std::endl;
+                    std::string algoType = getInput({"1", "2", "3", "4"});
+
+                    std::cout << "Do you want to print the final rho mappings y/n?" << std::endl;
+                    inputWord = getInput({"y", "n"});
+                    bool wantRhoMappings = inputWord == "y";
+
+
+                    if (algoType == "1") {
+                        dataPrinter.printTablesTerminalOutputSingleGame(filePath, DataPrinter::FixedInputOrder, wantRhoMappings);
+                    } else if (algoType == "2") {
+                        dataPrinter.printTablesTerminalOutputSingleGame(filePath, DataPrinter::FixedRandomOrder, wantRhoMappings);
+                    } else if(algoType == "3") {
+                        dataPrinter.printTablesTerminalOutputSingleGame(filePath, DataPrinter::Worklist, wantRhoMappings);
+                    } else {
+                        dataPrinter.printTablesTerminalOutputSingleGame(filePath, DataPrinter::ImprovedWorklist, wantRhoMappings);
+                    }
             } catch (const std::exception &e) {
                 std::cout << "it looks like the folder contains invalid paritygame" << std::endl;
                 std::cout << e.what() << std::endl;
                 std::cout << "Please try again";
                 continue;
             }
-        } else if (inputWord == "3") {
-            std::cout << "drag and drop parity game system to console / provide file path and press enter" << std::endl;
-            std::cin >> inputWord;
-            try {
-//                ParityGame parityGame = Parser::parseParityGame(inputWord);
-//
-//                enterFormula:
-//
-//                std::cout << "drag and drop the formula to console / provide file path and press enter" << std::endl;
-//                std::cin >> inputWord;
-//                try {
-//                    std::cout << "press i for executing the algorithm using fixed input order: " << std::endl;
-//                    std::cout << "press r for executing the algorithm using fixed random input order: " << std::endl;
-//                    std::cout << "press w for executing the algorithm using worklist: " << std::endl;
-//                    std::cout << "press iw for executing the algorithm using improved worklist: " << std::endl;
-//                    inputWord = getInput({"i", "r", "w", "iw"});
-//                    if (inputWord == "i") {
-//                        dataPrinter.printInformationSingleFormulaAndLts(*form, lts, DataPrinter::Naive);
-//                    } else if (inputWord == "r") {
-//                        dataPrinter.printInformationSingleFormulaAndLts(*form, lts, DataPrinter::Emerson);
-//                    } else if(inputWord == "w") {
-//
-//                    } else if(inputWord == "iw") {
-//
-//                    }
-//                    else {
-//                        throw std::runtime_error("This should not be reachable. Bug in code!!");
-//                    }
-//
-//
-//                } catch (const std::exception &e) {
-//                    std::cout << "it looks like the formula is not properly formatted" << std::endl;
-//                    std::cout << e.what() << std::endl;
-//                    std::cout << "Please try again";
-//
-//                    // This is really bad practice, but okay for a functional interface for now...
-//                    goto enterFormula;
-//                }
-
-            } catch (const std::exception &e) {
-                std::cout << "it looks like the lts is not properly formatted" << std::endl;
-                std::cout << e.what() << std::endl;
-                std::cout << "Please try again";
-                continue;
-            }
-
         } else {
             throw std::runtime_error("This should not be reachable. Bug in code!!");
         }
     }
 
 
-    return 0;
-
-
-
-
-//    //std::string filePath = "resources/dining_games/dining_11.plato_infinitely_often_can_eat.gm";
-//    //std::string filePath = "resources/ccp_games/german_linear_5.invariantly_eventually_fair_shared_access.gm";
-//    std::string filePath = "resources/manual/slide_example.gm";
-//
-//    ParityGame parityGame = Parser::parseParityGame(filePath);
-//    auto vec = parityGame.getNodes();
-//    auto node = parityGame.getNodeById(1);
-//    node.printSuccessors();
-//    std::cout << "id: " << node.getId() << " priority: " << node.getPriority() << " owner: " << node.getOwner() << std::endl;
-//
-//    std::cout << "d value: "  << parityGame.getDValue() << std::endl;
-//
-//    std::unordered_map<int, ProgressMeasure> rhoMapping;
-//    for(const auto& node : parityGame.getNodes()) {
-//        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
-//        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
-//        rhoMapping[node->getId()] = zeroProgressMeasure;
-//    }
-//
-//
-//    ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMapping);
-//
-//    std::cout << "----rho mapping1:----" << std::endl;
-//    for(const auto& el  : rhoMapping) {
-//        std::cout << "node " << el.first << " is: ";
-//        el.second.print();
-//        std::cout << std::endl;
-//    }
-//
-//
-//    std::unordered_map<int, ProgressMeasure> rhoMapping2;
-//    for(const auto& node : parityGame.getNodes()) {
-//        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
-//        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
-//        rhoMapping2[node->getId()] = zeroProgressMeasure;
-//    }
-//
-//
-//
-//    ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMapping2);
-//
-//    std::cout << "----rho mapping2:----" << std::endl;
-//    for(const auto& el  : rhoMapping2) {
-//        std::cout << "node " << el.first << " is: ";
-//        el.second.print();
-//        std::cout << std::endl;
-//    }
-//
-//    std::unordered_map<int, ProgressMeasure> rhoMapping3;
-//    for(const auto& node : parityGame.getNodes()) {
-//        auto zeroProgressMeasure = ProgressMeasure(&parityGame);
-//        zeroProgressMeasure.setProgressMeasureVec(std::vector<int>(parityGame.getDValue()));
-//        rhoMapping3[node->getId()] = zeroProgressMeasure;
-//    }
-//
-//    ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMapping3);
-//
-//    std::cout << "----rho mapping3:----" << std::endl;
-//    for(const auto& el  : rhoMapping3) {
-//        std::cout << "node " << el.first << " is: ";
-//        el.second.print();
-//        std::cout << std::endl;
-//    }
-//
-//    return 0;
 }
