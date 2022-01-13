@@ -87,8 +87,14 @@ ParityGame Parser::parseParityGame(const std::string &filePath) {
 
         // There is a label
         if(currentWord[currentWord.length()-1] != ';') {
-            fileStream >> currentWord;
-            std::string nodeName = currentWord.substr(1, currentWord.size()-2);
+            std::string label;
+            while(currentWord[currentWord.length()-1] != ';') {
+                fileStream >> currentWord;
+                label.append(currentWord);
+
+            }
+
+            std::string nodeName = label.substr(1, label.size()-3);
             node->setNodeName(nodeName);
         }
         node->setSuccessors(successorNodes);

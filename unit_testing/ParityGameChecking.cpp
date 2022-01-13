@@ -231,3 +231,33 @@ TEST_F(ParityGameTesting, evenProgressingSimpleProgressMeasure3) {
     EXPECT_EQ(evenProg2.getProgressMeasureVec(), expectation);
 
 }
+
+
+// We derive a fixture named IntegerFunctionTest from the QuickTest
+// fixture.  All tests using this fixture will be automatically
+// required to be quick.
+class ParityGameTestingElevator : public QuickTest {
+    // We don't need any more logic than already in the QuickTest fixture.
+    // Therefore the body is empty.
+protected:
+    static void SetUpTestSuite() {
+        parityGame = new ParityGame(Parser::parseParityGame("../resources/elevator_games/elevator1_2.gm"));
+    }
+
+    static void TearDownTestSuite() {
+        std::cout << "delete test suite";
+        delete parityGame;
+    }
+public:
+    static ParityGame* parityGame;
+};
+ParityGame* ParityGameTestingElevator::parityGame = nullptr;
+
+TEST_F(ParityGameTestingElevator, testReadingFile) {
+
+    auto node = parityGame->getNode(100);
+    std::cout << "node name" << node->getNodeName();
+    EXPECT_EQ(node->getNodeName(), "[X..]  |= 0");
+
+
+}
