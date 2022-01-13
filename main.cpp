@@ -70,7 +70,19 @@ int main() {
                 std::cout << "Do you want to print the final rho mappings y/n?" << std::endl;
                 inputWord = getInput({"y", "n"});
                 bool wantRhoMappings = inputWord == "y";
-                dataPrinter.printTablesTerminalOutput(filePath, wantRhoMappings);
+                int iterations;
+                try {
+                    std::cout << "How many iterations do you want to run each algorithm (for average times)?"
+                              << std::endl;
+                    std::cin >> inputWord;
+                    iterations = std::stoi(inputWord);
+                } catch (const std::exception &e) {
+                    std::cout << "only numbers are accepted" << std::endl;
+                    std::cout << e.what() << std::endl;
+                    std::cout << "Please try again";
+                    continue;
+                }
+                dataPrinter.printTablesTerminalOutput(filePath, wantRhoMappings, iterations);
 
             } catch (const std::exception &e) {
                 std::cout << "it looks like the folder contains invalid paritygame" << std::endl;

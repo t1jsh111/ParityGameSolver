@@ -41,7 +41,7 @@ std::string DataPrinter::ReplaceAll(std::string str, const std::string &from, co
 
 
 
-void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRhoMapping) {
+void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRhoMapping, int iterations) {
 
     std::vector<std::string> parityGames;
 
@@ -87,14 +87,18 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
         //-------BEGIN: Input order------
         std::unordered_map<int, ProgressMeasure> rhoMappingFixedInputOrder;
         fillRhoMappingForParityGame(&parityGame, rhoMappingFixedInputOrder);
+        double dur = 0.0;
 
-        auto start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedInputOrder);
-        auto end = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < iterations; i++) {
+            auto start = std::chrono::high_resolution_clock::now();
+            ProgressMeasuresAlgo::solveParityGameInputOrder(parityGame, rhoMappingFixedInputOrder);
+            auto end = std::chrono::high_resolution_clock::now();
 
+            auto durationInputOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+            dur += (double) durationInputOrder.count() / 1000;
+        }
 
-        auto durationInputOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        double dur = (double) durationInputOrder.count() / 1000;
+        dur = dur / iterations;
         std::string durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
         timingLine2.push_back(durStr);
@@ -104,14 +108,18 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
         //-------BEGIN: Random order------
         std::unordered_map<int, ProgressMeasure> rhoMappingFixedRandomOrder;
         fillRhoMappingForParityGame(&parityGame, rhoMappingFixedRandomOrder);
+        dur = 0.0;
 
-         start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameRandomOrder(parityGame, rhoMappingFixedRandomOrder);
-         end = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < iterations; i++) {
+            auto start = std::chrono::high_resolution_clock::now();
+            ProgressMeasuresAlgo::solveParityGameRandomOrder(parityGame, rhoMappingFixedRandomOrder);
+            auto end = std::chrono::high_resolution_clock::now();
 
+            auto durationRandomOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+            dur += (double) durationRandomOrder.count() / 1000;
+        }
 
-        auto durationRandomOrder = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        dur = (double) durationRandomOrder.count() / 1000;
+        dur = dur / iterations;
         durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
         timingLine3.push_back(durStr);
@@ -121,13 +129,18 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
         //-------BEGIN: Worklist order------
         std::unordered_map<int, ProgressMeasure> rhoMappingWorkListOrder;
         fillRhoMappingForParityGame(&parityGame, rhoMappingWorkListOrder);
+        dur = 0.0;
 
-        start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMappingWorkListOrder);
-        end = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < iterations; i++) {
+            auto start = std::chrono::high_resolution_clock::now();
+            ProgressMeasuresAlgo::solveParityGameWorkList(parityGame, rhoMappingWorkListOrder);
+            auto end = std::chrono::high_resolution_clock::now();
 
-        auto durationWorklist = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        dur = (double) durationWorklist.count() / 1000;
+            auto durationWorklist = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+            dur += (double) durationWorklist.count() / 1000;
+        }
+
+        dur = dur / iterations;
         durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
         timingLine4.push_back(durStr);
@@ -138,13 +151,18 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
         //-------BEGIN: Improved Worklist order------
         std::unordered_map<int, ProgressMeasure> rhoMappingImprovedWorkListOrder;
         fillRhoMappingForParityGame(&parityGame, rhoMappingImprovedWorkListOrder);
+        dur = 0.0;
 
-        start = std::chrono::high_resolution_clock::now();
-        ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMappingImprovedWorkListOrder);
-        end = std::chrono::high_resolution_clock::now();
+        for (int i = 0; i < iterations; i++) {
+            auto start = std::chrono::high_resolution_clock::now();
+            ProgressMeasuresAlgo::solveParityGameImprovedWorkList(parityGame, rhoMappingImprovedWorkListOrder);
+            auto end = std::chrono::high_resolution_clock::now();
 
-        auto durationImprovedWorkList = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-        dur = (double) durationImprovedWorkList.count() / 1000;
+            auto durationImprovedWorkList = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+            dur += (double) durationImprovedWorkList.count() / 1000;
+        }
+
+        dur = dur / iterations;
         durStr = std::to_string(dur);
         durStr.erase(durStr.find_last_not_of('0') + 1, std::string::npos);
         timingLine5.push_back(durStr);
