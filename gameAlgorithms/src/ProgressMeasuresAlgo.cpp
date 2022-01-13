@@ -32,7 +32,42 @@ void ProgressMeasuresAlgo::solveParityGameRandomOrder(ParityGame &parityGame,
     solveParityGameForOrder(parityGame, rhoMapping, order);
 }
 
+void ProgressMeasuresAlgo::solveParityGameEvenOddOrder(ParityGame &parityGame,
+                                                      std::unordered_map<int, ProgressMeasure> &rhoMapping, bool even) {
+    auto nodes = parityGame.getNodes();
+    auto order = FixedOrdering::evenOddOrder(nodes, even);
 
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
+
+void ProgressMeasuresAlgo::solveParityGameOwnerOrder(ParityGame &parityGame,
+                                                       std::unordered_map<int, ProgressMeasure> &rhoMapping, bool owner) {
+    auto nodes = parityGame.getNodes();
+    auto order = FixedOrdering::ownerOrder(nodes, owner);
+
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
+
+void ProgressMeasuresAlgo::solveParityGamePriorityOrder(ParityGame &parityGame,
+                                                       std::unordered_map<int, ProgressMeasure> &rhoMapping, bool highLow) {
+    auto order = FixedOrdering::priorityOrder(parityGame, highLow);
+
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
+
+void ProgressMeasuresAlgo::solveParityGameEvenOddPriorityOrder(ParityGame &parityGame,
+                                                        std::unordered_map<int, ProgressMeasure> &rhoMapping, bool even, bool highLow) {
+    auto order = FixedOrdering::evenOddPriorityOrder(parityGame, even, highLow);
+
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
+
+void ProgressMeasuresAlgo::solveParityGameOwnerPriorityOrder(ParityGame &parityGame,
+                                                        std::unordered_map<int, ProgressMeasure> &rhoMapping, bool diamond, bool highLow) {
+    auto order = FixedOrdering::ownerPriorityOrder(parityGame, diamond, highLow);
+
+    solveParityGameForOrder(parityGame, rhoMapping, order);
+}
 
 void ProgressMeasuresAlgo::solveParityGameWorkList(ParityGame &parityGame, std::unordered_map<int, ProgressMeasure>& rhoMapping) {
     WorkingListOrderer workingList;
