@@ -16,6 +16,7 @@ public:
     void printTablesTerminalOutput(std::string folderPath, bool printRhoMapping, int iterations);
     void printTablesFileOutput(std::string folderPath);
     void printTablesTerminalOutputSingleGame(std::string parityGamePath, AlgorithmType algoType,bool printRhoMapping, bool even, bool diamond, bool high);
+    void printTablesTerminalOutputOnlyWorklist(std::string folderPath, bool printRhoMapping);
 private:
 
 

@@ -213,6 +213,35 @@ void DataPrinter::printTablesTerminalOutput(std::string folderPath, bool printRh
 
 }
 
+
+void DataPrinter::printTablesTerminalOutputOnlyWorklist(std::string folderPath, bool printRhoMapping) {
+
+    std::vector<std::string> parityGames;
+
+    for (const auto &dirEntry : std::filesystem::recursive_directory_iterator(folderPath)) {
+        std::string fileLocation = dirEntry.path().generic_string();
+
+        if (fileLocation.substr(fileLocation.size() - 3, 3) == ".gm") {
+            parityGames.push_back(fileLocation);
+        }
+    }
+
+    std::sort(parityGames.begin(), parityGames.end(), SI::natural::compare<std::string>);
+    for(const auto& parityGame : parityGames) {
+        std::cout << std::endl;
+        std::cout << "Worklist:";
+        printTablesTerminalOutputSingleGame(parityGame, DataPrinter::Worklist, printRhoMapping, false, false, false);
+        std::cout << std::endl;
+        std::cout << "Improved Worklist";
+        printTablesTerminalOutputSingleGame(parityGame, DataPrinter::ImprovedWorklist, printRhoMapping, false, false, false);
+    }
+
+
+
+
+}
+
+
 void
 DataPrinter::printLinesTerminalOutput( std::vector<std::vector<std::string>> lines) {
     TextTable t( '-', '|', '+' );

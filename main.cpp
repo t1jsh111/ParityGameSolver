@@ -30,6 +30,8 @@ void printMenu() {
     std::cout << "-----" << std::endl;
     std::cout << "Press 2 to compute for a specific parity game using a specific algorithm" << std::endl;
     std::cout << "-----" << std::endl;
+    std::cout << "Press 3 to compute all information of a folder containing paritygames using only worklist methods " << std::endl;
+    std::cout << "-----" << std::endl;
 }
 
 
@@ -59,7 +61,7 @@ int main() {
         printMenu();
 
 
-        std::string inputWord = getInput({"1", "2"});
+        std::string inputWord = getInput({"1", "2", "3"});
 
         if (inputWord == "1") {
             std::cout << "drag and drop folder to console / provide folder path and press enter" << std::endl;
@@ -165,7 +167,29 @@ int main() {
                 std::cout << "Please try again";
                 continue;
             }
-        } else {
+        } else if (inputWord == "3") {
+            std::cout << "drag and drop folder to console / provide folder path and press enter" << std::endl;
+            std::cin >> inputWord;
+            std::string filePath;
+            filePath = inputWord;
+            try {
+                std::cout << "Do you want to print the final rho mappings y/n?" << std::endl;
+                inputWord = getInput({"y", "n"});
+                bool wantRhoMappings = inputWord == "y";
+
+                dataPrinter.printTablesTerminalOutputOnlyWorklist(filePath, wantRhoMappings);
+
+            } catch (const std::exception &e) {
+                std::cout << "it looks like the folder contains invalid paritygame" << std::endl;
+                std::cout << e.what() << std::endl;
+                std::cout << "Please try again";
+                continue;
+            }
+
+        }
+
+
+        else {
             throw std::runtime_error("This should not be reachable. Bug in code!!");
         }
     }
