@@ -7,7 +7,7 @@ add_subdirectory(parsing)
 add_subdirectory(gameAlgorithms)
 
 
-add_executable(ParityGameSolver main.cpp DataPrinter.cpp NaturalSort.h TextTable.h)
+add_executable(ParityGameSolver main.cpp)
 
 
 target_link_libraries(ParityGameSolver PUBLIC ParsingLibrary)
